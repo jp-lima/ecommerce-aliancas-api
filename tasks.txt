@@ -1,0 +1,30 @@
+Tarefas para a API:
+
+Tabela users:
+
+  -/create-user
+    Aberto para todos, criar o usuário
+
+  --/login
+    Retornar token JWT para Authorization
+  
+
+
+Tabela produtos
+  --/produtos
+    Receber todos os produtos
+
+
+Tabela vendas
+  --/create
+    cliente efetuar uma compra e ser adicionado após a compra efetuada
+
+  --/receber
+    Vendas já feitas
+      -Admin recebe todas as vendas
+      -Cada usuário recebe a propria venda já feita
+  
+  --/carrinho
+    Produtos que os usuários adicionaram ao carrinho
+      -Admin recebe de todos
+      -Cada usuário recebe a propria
