@@ -5,3 +5,4 @@ class Request_create_product(BaseModel):
     price:float
     image_url:str
     authorization:str
+

@@ -10,10 +10,20 @@ from models.user import UserRequestLogin, UserCreateRequest
 from models.model_product import Request_create_product
 from models.sales import Request_new_sale 
 from repositories.sales_repo import get_all_sales
-from service.sales_service import service_create_sale 
-
+from service.sales_service import service_create_sale,service_update_sale 
+from repositories.sales_repo import put_sale
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 # admin receber todos os usuários
 @app.get("/")
@@ -70,10 +80,13 @@ def new_sale(sale:Request_new_sale):
 
     return response
     
+@app.put("/sales")
+def update_sale(sale:Request_new_sale):
+  
+    response = service_update_sale(sale.authorization,sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status) 
 
 
-
-
+    return  response 
 
 
 

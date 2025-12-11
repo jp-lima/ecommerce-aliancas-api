@@ -32,6 +32,41 @@ def create_new_sale(uuid:str,user_id:str,product_id:str, amount:int,value:float,
     cursor.close()
     conn.close()
 
+def put_sale(user_id:str, product_id:str, amount:int,value:float, user_cep:str,status:str, uuid:str):
+
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute( '''
+    UPDATE sales SET 
+        user_id = %s,
+        product_id = %s,
+        amount = %s,
+        value = %s,
+        user_cep = %s,
+        status = %s
+    WHERE id = %s 
+    ''',
+    (user_id, product_id, amount,value, user_cep,status, uuid)
+ )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+def get_line_by_uuid(uuid:str):
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM `sales` WHERE id=%s",(uuid,))
+    sales = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return sales
 
 
 

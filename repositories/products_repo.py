@@ -32,7 +32,8 @@ def create_product(uuid:str, name:str, price:float,image_url:str, created_at:str
     cursor.close()
     conn.close()
 
-
+def put_product():
+    pass
 
 
 

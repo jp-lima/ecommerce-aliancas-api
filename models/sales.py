@@ -6,3 +6,4 @@ class Request_new_sale(BaseModel):
     amount:int
     user_cep:str
     authorization:str
+    status: str | None = None
