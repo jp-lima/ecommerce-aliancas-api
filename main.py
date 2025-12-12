@@ -12,7 +12,6 @@ from models.sales import Request_new_sale
 from repositories.sales_repo import get_all_sales
 from service.sales_service import service_create_sale,service_update_sale
 from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
 
 app.add_middleware(
@@ -20,8 +19,9 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
 
 
 # admin receber todos os usuários
