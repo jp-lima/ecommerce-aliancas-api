@@ -5,12 +5,12 @@ from pydantic import BaseModel
 from repositories.products_repo import get_all_products
 from repositories.user_repo import get_all_users,get_user_by_email
 from service.user_service import verify_password, service_create_user  
-from service.product_service import service_create_product
+from service.product_service import service_create_product, service_delete_product, service_update_product
 from models.user import UserRequestLogin, UserCreateRequest   
-from models.model_product import Request_create_product
+from models.model_product import Request_create_product, Request_update_product,Request_delete_product
 from models.sales import Request_new_sale 
 from repositories.sales_repo import get_all_sales
-from service.sales_service import service_create_sale,service_update_sale 
+from service.sales_service import service_create_sale,service_update_sale
 from repositories.sales_repo import put_sale
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -63,6 +63,20 @@ def create_product(product:Request_create_product):
     
 
     return response
+
+@app.put("/product")
+def update_product(product:Request_update_product):
+
+    response = service_update_product(product.price, product.name, product.image_url,product.status,product.product_id, product.authorization)
+
+    return response
+    
+@app.post("/product/delete")
+def delete_product(product:Request_delete_product):
+
+   response = service_delete_product(product.product_id, product.authorization)
+
+   return response 
 
 
 @app.get("/sales")
