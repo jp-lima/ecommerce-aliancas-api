@@ -1,8 +1,8 @@
 from repositories import products_repo
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File, Form,Response 
 from db import get_conn
 from pydantic import BaseModel 
-from repositories.products_repo import get_all_products
+from repositories.products_repo import get_all_products, get_image_by_id
 from repositories.user_repo import get_all_users,get_user_by_email
 from service.user_service import verify_password, service_create_user, service_delete_user
 from service.product_service import service_create_product, service_delete_product, service_update_product
@@ -13,7 +13,7 @@ from repositories.sales_repo import get_all_sales
 from service.sales_service import service_create_sale,service_update_sale
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
-
+import base64
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -55,20 +55,31 @@ def create(user:UserCreateRequest):
 
 #Pegar todos os produtos
 @app.get("/products")
-def receve_product():
+def receive_product():
 
     response_products = get_all_products()
     
     return response_products
 
+@app.get("/products/image/{id}")
+def receive_product_image(id:str):
+    
+    response = get_image_by_id(id)
+
+    return Response(content=response)
+
 # Criar novo produto
 @app.post("/products")
-def create_product(product:Request_create_product):
+async def create_product(
+    name: str = Form(...),
+    price: float = Form(...),
+    authorization: str = Form(...),
+    image: UploadFile = File(...)
+    ):
+    image_bytes = await image.read()
+    response = service_create_product(price,name,image_bytes,authorization)
 
-    response = service_create_product(product.price, product.name, product.image_url, product.authorization)
-    
-
-    return response
+    return Response(content=response) 
 
 @app.put("/product")
 def update_product(product:Request_update_product):

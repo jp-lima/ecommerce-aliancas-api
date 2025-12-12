@@ -4,7 +4,7 @@ def get_all_products():
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,name,price,sales,created_at,updated_at,image_binary,status  FROM products")
+    cursor.execute("SELECT id,name,price,sales,created_at,updated_at,status  FROM products")
     products = cursor.fetchall()
 
     cursor.close()
@@ -12,7 +12,19 @@ def get_all_products():
 
     return products
 
-def create_product(uuid:str, name:str, price:float,image_url:str, created_at:str):
+def get_image_by_id(uuid:str):
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT image_binary FROM products WHERE id = %s",(uuid,))
+    image = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    
+    return image[0]["image_binary"] 
+
+def create_product(uuid:str, name:str, price:float,image_binary:str, created_at:str):
     conn = get_conn()
 
     cursor = conn.cursor(dictionary=True)
@@ -20,11 +32,11 @@ def create_product(uuid:str, name:str, price:float,image_url:str, created_at:str
     cursor.execute(
     '''
     INSERT INTO products 
-        (id, name, price, image_binary,created_at, updated_at)
+        (id, name, price,image_binary,created_at, updated_at)
     VALUES 
         (%s,%s,%s,%s,%s,%s)
     ''',
-    (uuid, name,price,image_url,created_at,created_at)
+    (uuid, name,price,image_binary,created_at,created_at)
     )
 
     conn.commit()
@@ -76,8 +88,7 @@ def del_product(uuid:str):
 
 if __name__ == "__main__":
     user = get_all_products()
-
-    print(user)
+    get_image_by_id("fec99e9e-e60c-46d8-bd33-48cc77614a4a")
 
 
 
