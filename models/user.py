@@ -9,6 +9,9 @@ class UserCreateRequest(BaseModel):
     email:str
     password:str
 
+class UserDeleteRequest(BaseModel):
+    user_id:str
+    authorization:str
 
 
 

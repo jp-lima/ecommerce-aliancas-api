@@ -1,6 +1,6 @@
-from repositories.user_repo import get_all_users,get_user_by_email, post_new_user   
+from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user  
 from utils.password import create_hash, verify_hash
-from utils.access_token import create_access_token
+from utils.access_token import create_access_token, decode_access_token
 import uuid
 from datetime import datetime
 
@@ -31,3 +31,26 @@ def service_create_user (email:str, password:str, name:str):
     post_new_user(str(new_uuid), name,email, hashed_password, formato_iso, "")
  
     return "user criado"
+
+
+
+def service_delete_user(uuid:str, authorization:str):
+
+    decoded_token = decode_access_token(authorization)
+
+    if decoded_token["role"] == "admin":
+           
+        del_user(str(uuid))
+
+        return "concluido"
+        
+
+    else:
+        return "não autorizado"
+
+ 
+
+
+
+
+

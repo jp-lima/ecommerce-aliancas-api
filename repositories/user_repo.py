@@ -44,6 +44,23 @@ def post_new_user(uuid:str, name:str, email:str, password_hash:str, created_at:s
     cursor.close()
     conn.close()
 
+def del_user(uuid:str):
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute( '''
+    DELETE FROM users
+    WHERE id = %s 
+    ''',
+    (uuid,)
+ )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
 
 
 

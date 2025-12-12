@@ -4,14 +4,13 @@ from db import get_conn
 from pydantic import BaseModel 
 from repositories.products_repo import get_all_products
 from repositories.user_repo import get_all_users,get_user_by_email
-from service.user_service import verify_password, service_create_user  
+from service.user_service import verify_password, service_create_user, service_delete_user
 from service.product_service import service_create_product, service_delete_product, service_update_product
-from models.user import UserRequestLogin, UserCreateRequest   
+from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest    
 from models.model_product import Request_create_product, Request_update_product,Request_delete_product
 from models.sales import Request_new_sale 
 from repositories.sales_repo import get_all_sales
 from service.sales_service import service_create_sale,service_update_sale
-from repositories.sales_repo import put_sale
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -37,6 +36,13 @@ def search_user(user:UserRequestLogin):
 
     return response_login
 
+@app.post("/user/delete")
+def delete_user(user:UserDeleteRequest):
+
+    response = service_delete_user(user.user_id, user.authorization)
+
+    return response 
+    
 
 # Qualquer pessoa criar novo usuário
 @app.post("/create-user")
