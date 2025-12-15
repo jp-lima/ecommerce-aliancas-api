@@ -13,7 +13,7 @@ def create_access_token(uuid:str,name:str,role:str):
         "sub":uuid,
         "name":name,
         "role":role,
-        "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=15)
+        "exp": datetime.datetime.now(datetime.UTC) + datetime.timedelta(seconds=9000)
             }
 
     token = jwt.encode(payload, str(secret_key), algorithm="HS256")

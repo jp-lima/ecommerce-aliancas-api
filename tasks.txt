@@ -1,11 +1,12 @@
  - deletar produto
+ - deletar user
+- CRUD completo de produto
+- CRUD completo de vendas
+
 
 alterar user
 
-$ deletar user
+refresh token
 
-
-deletar vendas
-
-
+  - get de fotos de produto corretamente
 

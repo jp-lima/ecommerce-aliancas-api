@@ -11,6 +11,22 @@ def get_all_products():
     conn.close()
 
     return products
+def get_one_product(product_id:str):
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT id,name,price,sales,created_at,updated_at,status  FROM products WHERE id = %s",(product_id,))
+    product = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return product
+
+
+
+
+
 
 def get_image_by_id(uuid:str):
     conn = get_conn()

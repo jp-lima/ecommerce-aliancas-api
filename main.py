@@ -2,7 +2,7 @@ from repositories import products_repo
 from fastapi import FastAPI, UploadFile, File, Form,Response 
 from db import get_conn
 from pydantic import BaseModel 
-from repositories.products_repo import get_all_products, get_image_by_id
+from repositories.products_repo import get_all_products, get_image_by_id, get_one_product
 from repositories.user_repo import get_all_users,get_user_by_email
 from service.user_service import verify_password, service_create_user, service_delete_user
 from service.product_service import service_create_product, service_delete_product, service_update_product
@@ -61,12 +61,21 @@ def receive_product():
     
     return response_products
 
-@app.get("/products/image/{id}")
+@app.get("/products/{id}/image")
 def receive_product_image(id:str):
     
     response = get_image_by_id(id)
 
     return Response(content=response)
+
+@app.get("/products/{id}")
+def receive_one_product(id:str):
+
+    response = get_one_product(id)
+
+    return response
+
+
 
 # Criar novo produto
 @app.post("/products")
@@ -107,7 +116,7 @@ def receive_sales():
 @app.post("/sales")
 def new_sale(sale:Request_new_sale):
 
-    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.authorization) 
+    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization) 
 
     return response
     
@@ -118,6 +127,4 @@ def update_sale(sale:Request_new_sale):
 
 
     return  response 
-
-
 
