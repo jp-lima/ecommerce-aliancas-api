@@ -1,3 +1,4 @@
+from typing import reveal_type
 from db import get_conn
 
 def get_all_sales():
@@ -5,6 +6,34 @@ def get_all_sales():
     cursor = conn.cursor(dictionary=True)
 
     cursor.execute("SELECT id,user_id, product_id, amount,value, user_cep,status,created_at  FROM sales")
+    sales = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return sales
+
+def get_carts_by_id(uuid:str):
+
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute("SELECT * FROM sales WHERE user_id = %s AND status = 'cart' ", (uuid,))
+
+    carts = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+
+    return carts 
+    
+
+def get_sales_by_id(uuid:str):
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT id,user_id, product_id, amount,value, user_cep,status,created_at  FROM sales WHERE user_id = %s", (uuid,))
     sales = cursor.fetchall()
 
     cursor.close()

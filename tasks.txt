@@ -2,11 +2,18 @@
  - deletar user
 - CRUD completo de produto
 - CRUD completo de vendas
+- pegar vendas por id de usuário
 
+- get de fotos de produto corretamente
+
+-pegar produtos com status = carts pelo id de usuário
+
+para atualizar a venda, o usuário precisa mandar todos os dados, os que ele não vai alterar e os que vai, isso é um problema
 
 alterar user
 
 refresh token
 
-  - get de fotos de produto corretamente
+
+
 

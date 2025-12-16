@@ -1,4 +1,5 @@
-from repositories.sales_repo import create_new_sale,put_sale,get_line_by_uuid  
+import re
+from repositories.sales_repo import create_new_sale,put_sale,get_line_by_uuid, get_carts_by_id   
 from utils.access_token import decode_access_token
 import uuid 
 
@@ -28,4 +29,19 @@ def service_update_sale(authorization:str,product_id:str, amount:int,value:float
         put_sale(decoded_token["sub"], product_id, amount,value, user_cep,status,sale[0]["id"])
 
         return "venda atualizada com sucesso"
-       
+
+def service_get_carts_by_id(authorization:str):
+
+    decoded_token = decode_access_token(authorization)
+    
+    carts = get_carts_by_id(decoded_token["sub"])   
+
+    return carts      
+
+
+
+
+
+
+
+

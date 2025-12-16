@@ -1,3 +1,4 @@
+from enum import auto
 from pydantic import BaseModel
 
 class Request_new_sale(BaseModel):
@@ -7,3 +8,13 @@ class Request_new_sale(BaseModel):
     user_cep:str
     authorization:str
     status: str | None = None
+
+class RequestCartById(BaseModel):
+
+    authorization:str
+
+
+
+
+
+

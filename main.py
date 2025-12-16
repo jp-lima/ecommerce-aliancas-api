@@ -1,3 +1,6 @@
+import re
+from warnings import resetwarnings
+from models import user
 from repositories import products_repo
 from fastapi import FastAPI, UploadFile, File, Form,Response 
 from db import get_conn
@@ -8,12 +11,11 @@ from service.user_service import verify_password, service_create_user, service_d
 from service.product_service import service_create_product, service_delete_product, service_update_product
 from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest    
 from models.model_product import Request_create_product, Request_update_product,Request_delete_product
-from models.sales import Request_new_sale 
-from repositories.sales_repo import get_all_sales
-from service.sales_service import service_create_sale,service_update_sale
+from models.sales import Request_new_sale, RequestCartById
+from repositories.sales_repo import get_all_sales, get_sales_by_id
+from service.sales_service import service_create_sale,service_update_sale,service_get_carts_by_id  
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
-import base64
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -75,8 +77,6 @@ def receive_one_product(id:str):
 
     return response
 
-
-
 # Criar novo produto
 @app.post("/products")
 async def create_product(
@@ -91,9 +91,20 @@ async def create_product(
     return Response(content=response) 
 
 @app.put("/product")
-def update_product(product:Request_update_product):
+async def update_product( name: str = Form(None),
+                   status:str = Form(None),
+                   product_id:str = Form(None),
+                   price: float = Form(None),
+    authorization: str = Form(None),
+    image: UploadFile = File(None)
+        ):
+    image_bytes = None 
 
-    response = service_update_product(product.price, product.name, product.image_url,product.status,product.product_id, product.authorization)
+    if image:
+        image_bytes = await image.read()
+    
+
+    response = service_update_product(price,name,image_bytes,status,product_id,authorization)
 
     return response
     
@@ -104,6 +115,13 @@ def delete_product(product:Request_delete_product):
 
    return response 
 
+@app.post("/carts")
+def get_carts_by_user_id(requisition:RequestCartById):
+    
+    response = service_get_carts_by_id(requisition.authorization)
+
+    return response
+
 
 @app.get("/sales")
 def receive_sales():
@@ -112,6 +130,12 @@ def receive_sales():
 
     return sales
 
+@app.get("/sales/{user_id}")
+def get_one_sale_by_user_id(user_id:str):
+
+    response = get_sales_by_id(user_id)
+    
+    return response
 
 @app.post("/sales")
 def new_sale(sale:Request_new_sale):
