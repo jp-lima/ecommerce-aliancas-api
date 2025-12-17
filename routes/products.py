@@ -23,8 +23,7 @@ def receive_product_image(id:str):
     
     response = get_image_by_id(id)
 
-    return response
-
+    return Response(content=response)
 @router.get("/{id}")
 def receive_one_product(id:str):
 

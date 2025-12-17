@@ -10,6 +10,9 @@
 
 - para atualizar a venda, o usuário precisa mandar todos os dados, os que ele não vai alterar e os que vai, isso é um problema
 
+da para qualquer pessoa pegar o user sem ser admin
+
+
 alterar user
 
 refresh token
