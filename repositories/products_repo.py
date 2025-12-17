@@ -24,10 +24,6 @@ def get_one_product(product_id:str):
     return product
 
 
-
-
-
-
 def get_image_by_id(uuid:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)

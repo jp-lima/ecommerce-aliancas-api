@@ -23,7 +23,7 @@ def create_access_token(uuid:str,name:str,role:str):
 
 def decode_access_token(access_token:str):
 
-    token_decoded =  jwt.decode(access_token,secret_key,algorithms=["HS256"])
+    token_decoded =  jwt.decode(access_token,str(secret_key),algorithms=["HS256"])
     
     return token_decoded
 
