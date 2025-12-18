@@ -1,8 +1,7 @@
-
 from fastapi import APIRouter,Form,File, UploadFile,Response
 from repositories.user_repo import get_all_users,get_user_by_email
-from service.user_service import verify_password, service_create_user, service_delete_user
-from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest    
+from service.user_service import verify_password, service_create_user, service_delete_user, service_get_all_users  
+from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest,RequestGetAuthorization       
 
 
 router = APIRouter(
@@ -12,9 +11,9 @@ tags=["users"]
 
 
 # admin receber todos os usuários
-@router.get("/")
-def get_users():
-    all_users = get_all_users()
+@router.post("/")
+def get_users(request:RequestGetAuthorization):
+    all_users = service_get_all_users(request.authorization)
     return all_users
 
 @router.post("/auth")

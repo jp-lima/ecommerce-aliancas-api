@@ -13,7 +13,8 @@ class UserDeleteRequest(BaseModel):
     user_id:str
     authorization:str
 
-
+class RequestGetAuthorization(BaseModel):
+    authorization:str
 
 
 

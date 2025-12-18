@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user  
 from utils.password import create_hash, verify_hash
 from utils.access_token import create_access_token, decode_access_token
@@ -8,16 +9,34 @@ from datetime import datetime
 
 def verify_password(email:str, password:str):
     user =  get_user_by_email(email)
-
     
-    if verify_hash(password, user["password_hash"]):
+    if not user:
+
+        raise HTTPException(
+                    status_code=404,
+                    detail="Email não encontrado no banco de dados"
+
+                )
+    
+    elif verify_hash(password, user["password_hash"]):
         
         token = create_access_token(user["id"],user["name"],user["role"])
 
         return user | token
     else:
-        return "email correto, mas a senha está errada"
+        return user 
 
+def service_get_all_users(authorization:str):
+
+    access = decode_access_token(authorization)
+    
+    if(access["role"] == "admin"):
+
+        all_users = get_all_users()
+
+        return all_users
+    else:
+        return "não autorizado"
 
 def service_create_user (email:str, password:str, name:str):
     
