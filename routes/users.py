@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Form,File, UploadFile,Response
+from fastapi import APIRouter,Form,File, UploadFile,Response, HTTPException
 from repositories.user_repo import get_all_users,get_user_by_email
 from service.user_service import verify_password, service_create_user, service_delete_user, service_get_all_users  
 from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest,RequestGetAuthorization       
@@ -17,7 +17,7 @@ def get_users(request:RequestGetAuthorization):
     return all_users
 
 @router.post("/auth")
-def search_user(user:UserRequestLogin):
+def search_user(user:UserRequestLogin): 
     response_login = verify_password(user.email,user.password) 
 
     return response_login

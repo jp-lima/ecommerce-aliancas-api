@@ -1,11 +1,12 @@
 from typing import reveal_type
 from db import get_conn
+from routes import products
 
 def get_all_sales():
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,user_id, product_id, amount,value, user_cep,status,created_at  FROM sales")
+    cursor.execute("SELECT * FROM sales")
     sales = cursor.fetchall()
 
     cursor.close()
@@ -33,7 +34,7 @@ def get_sales_by_id(uuid:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,user_id, product_id, amount,value, user_cep,status,created_at  FROM sales WHERE user_id = %s", (uuid,))
+    cursor.execute("SELECT * FROM sales WHERE user_id = %s", (uuid,))
     sales = cursor.fetchall()
 
     cursor.close()
@@ -41,7 +42,7 @@ def get_sales_by_id(uuid:str):
 
     return sales
 
-def create_new_sale(uuid:str,user_id:str,product_id:str, amount:int,value:float, user_cep:str, status:str):
+def create_new_sale(uuid:str,user_id:str,product_id:str, amount:int,value:float, user_cep:str, status:str, code:str, sizes:str):
 
     conn = get_conn()
 
@@ -49,11 +50,11 @@ def create_new_sale(uuid:str,user_id:str,product_id:str, amount:int,value:float,
 
     cursor.execute(    '''
     INSERT INTO sales 
-        (id,user_id, product_id, amount,value, user_cep, status)
+        (id,user_id, product_id, amount,value, user_cep, status, code, sizes)
     VALUES 
-        (%s,%s,%s,%s,%s,%s,%s)
+        (%s,%s,%s,%s,%s,%s,%s, %s,%s)
     ''',
-    (uuid,user_id, product_id, amount,value, user_cep,status)
+    (uuid,user_id, product_id, amount,value, user_cep,status, code, sizes,)
  )
 
     conn.commit()
@@ -61,7 +62,7 @@ def create_new_sale(uuid:str,user_id:str,product_id:str, amount:int,value:float,
     cursor.close()
     conn.close()
 
-def put_sale(user_id:str, product_id:str, amount:int,value:float, user_cep:str,status:str, uuid:str):
+def put_sale( amount:int,value:float, user_cep:str,status:str, uuid:str, code:str, sizes:str):
 
     conn = get_conn()
 
@@ -69,15 +70,15 @@ def put_sale(user_id:str, product_id:str, amount:int,value:float, user_cep:str,s
 
     cursor.execute( '''
     UPDATE sales SET 
-        user_id = %s,
-        product_id = %s,
         amount = %s,
         value = %s,
         user_cep = %s,
-        status = %s
+        status = %s,
+        code = %s,
+        sizes = %s
     WHERE id = %s 
     ''',
-    (user_id, product_id, amount,value, user_cep,status, uuid)
+    ( amount,value, user_cep,status, code, sizes,uuid)
  )
 
     conn.commit()
@@ -85,7 +86,7 @@ def put_sale(user_id:str, product_id:str, amount:int,value:float, user_cep:str,s
     cursor.close()
     conn.close()
 
-def get_line_by_uuid(uuid:str):
+def get_sale_by_uuid(uuid:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 

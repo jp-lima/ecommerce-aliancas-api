@@ -1,34 +1,50 @@
 import re
-from repositories.sales_repo import create_new_sale,put_sale,get_line_by_uuid, get_carts_by_id   
+from repositories.sales_repo import create_new_sale,put_sale,get_sale_by_uuid, get_carts_by_id   
+from routes import products
 from utils.access_token import decode_access_token
 import uuid 
 
 
-def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str):
+def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str, code:str, sizes:str):
 
     decoded_token = decode_access_token(authorization)
 
     new_id = uuid.uuid4() 
 
-    create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status)
+    create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status, code,sizes)
     
 
     return "criado com sucesso"
 
-def service_update_sale(authorization:str,product_id:str, amount:int,value:float,user_cep:str, status:str):
+def service_update_sale(authorization:str,sale_id:str, amount:int,value:float,user_cep:str, status:str, code:str, sizes:str):
+    
+    infos_sale = {"amount":amount, "value":value,"user_cep":user_cep,"status":status,"code":code,"sizes":sizes}
 
     decoded_token = decode_access_token(authorization)
      
-    sale = get_line_by_uuid(product_id) 
     
-    if len(sale) == 0:
-        return "não tem venda com esse id"
-    
+    if decoded_token["role"] == "admin":
+       
+        sale = get_sale_by_uuid(sale_id) 
+            
+        for key, value in infos_sale.items():
+            if not value:
+                
+                infos_sale[key] = sale[0][key]
+
+        put_sale( infos_sale["amount"],infos_sale["value"], infos_sale["user_cep"],infos_sale["status"],sale_id,infos_sale["code"], infos_sale["sizes"])
+        
+
+        return infos_sale    
+        
+
     else:
+        return "não autorizado"
 
-        put_sale(decoded_token["sub"], product_id, amount,value, user_cep,status,sale[0]["id"])
 
-        return "venda atualizada com sucesso"
+
+
+    return "venda atualizada com sucesso"
 
 def service_get_carts_by_id(authorization:str):
 

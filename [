@@ -15,14 +15,14 @@ class RequestCartById(BaseModel):
     authorization:str
 
 class Request_put_sale(BaseModel):
-    sale_id:str
     value:float | None = None
+    product_id:str | None = None
     amount:int | None = None
     user_cep:str | None = None
     authorization:str | None = None
     status: str | None = None
-    sizes: str | None = None
-    code: str | None = None
+
+
 
 
 

@@ -1,4 +1,5 @@
-from fastapi import HTTPException
+from os import confstr
+from fastapi.responses import JSONResponse
 from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user  
 from utils.password import create_hash, verify_hash
 from utils.access_token import create_access_token, decode_access_token
@@ -12,9 +13,9 @@ def verify_password(email:str, password:str):
     
     if not user:
 
-        raise HTTPException(
+        return JSONResponse(
                     status_code=404,
-                    detail="Email não encontrado no banco de dados"
+                    content="Email não encontrado no banco de dados"
 
                 )
     
@@ -22,9 +23,18 @@ def verify_password(email:str, password:str):
         
         token = create_access_token(user["id"],user["name"],user["role"])
 
-        return user | token
+        return JSONResponse(
+                status_code=201,
+
+                content={"username":user["name"], "access_token":token}
+
+                )
     else:
-        return user 
+        return JSONResponse(
+                status_code=401,
+                content="Não autorizado"
+                )
+
 
 def service_get_all_users(authorization:str):
 

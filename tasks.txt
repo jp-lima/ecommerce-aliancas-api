@@ -10,9 +10,11 @@
 
 - para atualizar a venda, o usuário precisa mandar todos os dados, os que ele não vai alterar e os que vai, isso é um problema
 
-$ da para qualquer pessoa pegar o user sem ser admin
+- da para qualquer pessoa pegar o user sem ser admin
 
-armazenar o tamanho na tabela de venda
+- colocar os status code nas requisições
+
+armazenar o tamanho do anel na tabela de venda
 
 adicionar o código de rastreio nas vendas
 
@@ -22,4 +24,3 @@ refresh token
 
 depois de ser criado uma venda, aumentar o sale do produto
 
-colocar os status code nas requisições

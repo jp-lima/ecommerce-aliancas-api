@@ -3,7 +3,7 @@ from fastapi import APIRouter,Form,File, UploadFile,Response
 from repositories.sales_repo import get_all_sales, get_sales_by_id
 from service.sales_service import service_create_sale,service_update_sale,service_get_carts_by_id  
 
-from models.sales import Request_new_sale, RequestCartById
+from models.sales import Request_new_sale, RequestCartById, Request_put_sale
 
 
 router = APIRouter(
@@ -41,22 +41,17 @@ def get_one_sale_by_user_id(user_id:str):
 @router.post("/")
 def new_sale(sale:Request_new_sale):
 
-    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization) 
+    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization, sale.code, sale.sizes) 
 
     return response
     
 @router.put("/")
-def update_sale(sale:Request_new_sale):
+def update_sale(sale:Request_put_sale):
   
-    response = service_update_sale(sale.authorization,sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status) 
+    response = service_update_sale(sale.authorization,sale.sale_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.code, sale.sizes) 
 
 
     return  response 
-
-
-
-
-
 
 
 
