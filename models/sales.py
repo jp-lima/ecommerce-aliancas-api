@@ -10,6 +10,11 @@ class Request_new_sale(BaseModel):
     sizes: str
     status: str | None = None
     code:str | None = None
+    state:str
+    city:str
+    neighboor:str
+    street:str
+    complement:str
 
 class RequestCartById(BaseModel):
     authorization:str
@@ -23,6 +28,11 @@ class Request_put_sale(BaseModel):
     status: str | None = None
     sizes: str | None = None
     code: str | None = None
+    state:str | None = None
+    city:str | None = None
+    neighboor:str | None = None
+    street:str | None = None
+    complement:str | None = None
 
 
 

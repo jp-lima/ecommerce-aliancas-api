@@ -20,10 +20,6 @@ def get_carts_by_user_id(requisition:RequestCartById):
 
     return response
 
-
-
-
-
 @router.get("/")
 def receive_sales():
     
@@ -41,14 +37,14 @@ def get_one_sale_by_user_id(user_id:str):
 @router.post("/")
 def new_sale(sale:Request_new_sale):
 
-    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization, sale.code, sale.sizes) 
+    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization, sale.code, sale.sizes, sale.state, sale.city, sale.neighboor, sale.street, sale.complement) 
 
-    return response
+    return sale 
     
 @router.put("/")
 def update_sale(sale:Request_put_sale):
   
-    response = service_update_sale(sale.authorization,sale.sale_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.code, sale.sizes) 
+    response = service_update_sale(sale.authorization,sale.sale_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.code, sale.sizes,sale.state, sale.city, sale.neighboor, sale.street, sale.complement) 
 
 
     return  response 
