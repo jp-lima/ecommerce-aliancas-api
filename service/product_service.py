@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 
-def service_create_product(price:float, name:str, image_bytes:str, authorization:str):
+def service_create_product(price:float, name:str,image_bytes:str, type:str,material:str,checkout_link:str,authorization:str):
     
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
@@ -19,23 +19,19 @@ def service_create_product(price:float, name:str, image_bytes:str, authorization
 
     if decoded_token["role"] == "admin":
             
-        create_product(str(new_uuid),name, price, image_bytes, formato_iso )
+        create_product(str(new_uuid),name, price, image_bytes, type, material,checkout_link,formato_iso )
 
         return "concluido"
-        
 
     else:
         return "não autorizado"
 
 
-    #return decoded_token["role"]
+def service_update_product(price:float, name:str, image_binary:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
 
-def service_update_product(price:float, name:str, image_binary:str,status:str,product_id:str, authorization:str):
-
-    infos_produto = {"price":price,"name":name,"status":status}
+    infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
 
     now = datetime.now()
-
 
 
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -53,7 +49,7 @@ def service_update_product(price:float, name:str, image_binary:str,status:str,pr
 
                 infos_produto[key] = product[0][key]
 
-        put_product(infos_produto["name"],infos_produto["price"],formato_iso,image_binary,infos_produto["status"],product_id) 
+        put_product(infos_produto["name"],infos_produto["price"],formato_iso,image_binary,infos_produto["status"],infos_produto["type"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
         
 
         return infos_produto    

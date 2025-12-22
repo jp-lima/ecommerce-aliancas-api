@@ -37,20 +37,27 @@ async def create_product(
     name: str = Form(...),
     price: float = Form(...),
     authorization: str = Form(...),
+    type: str = Form(...),
+    material: str = Form(...),
+    checkout_link: str = Form(...),
     image: UploadFile = File(...)
     ):
     image_bytes = await image.read()
-    response = service_create_product(price,name,image_bytes,authorization)
+    response = service_create_product(price,name,image_bytes,type,material,checkout_link,authorization)
 
     return Response(content=response) 
 
 @router.put("/")
-async def update_product( name: str = Form(None),
-                   status:str = Form(None),
-                   product_id:str = Form(None),
-                   price: float = Form(None),
-    authorization: str = Form(None),
-    image: UploadFile = File(None)
+async def update_product( 
+        name: str = Form(None),
+        status:str = Form(None),
+        authorization: str = Form(None),
+        product_id:str = Form(None),
+        price: float = Form(None),
+        type: str = Form(None),
+        material: str = Form(None),
+        checkout_link: str = Form(None),
+        image: UploadFile = File(None)
         ):
     image_bytes = None 
 
@@ -58,7 +65,7 @@ async def update_product( name: str = Form(None),
         image_bytes = await image.read()
     
 
-    response = service_update_product(price,name,image_bytes,status,product_id,authorization)
+    response = service_update_product(price,name,image_bytes,status,type,material,checkout_link,product_id,authorization)
 
     return response
     

@@ -4,7 +4,7 @@ def get_all_products():
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,name,price,sales,created_at,updated_at,status  FROM products")
+    cursor.execute("SELECT id,name,sales,type,material, checkout_link, status, created_at FROM products")
     products = cursor.fetchall()
 
     cursor.close()
@@ -15,7 +15,7 @@ def get_one_product(product_id:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,name,price,sales,created_at,updated_at,status  FROM products WHERE id = %s",(product_id,))
+    cursor.execute("SELECT id,name,sales,type,material, checkout_link, status, created_at  FROM products WHERE id = %s",(product_id,))
     product = cursor.fetchall()
 
     cursor.close()
@@ -36,7 +36,7 @@ def get_image_by_id(uuid:str):
     
     return image[0]["image_binary"] 
 
-def create_product(uuid:str, name:str, price:float,image_binary:str, created_at:str):
+def create_product(uuid:str, name:str, price:float,image_binary:str, type:str, material:str,checkout_link:str, created_at:str):
     conn = get_conn()
 
     cursor = conn.cursor(dictionary=True)
@@ -44,11 +44,11 @@ def create_product(uuid:str, name:str, price:float,image_binary:str, created_at:
     cursor.execute(
     '''
     INSERT INTO products 
-        (id, name, price,image_binary,created_at, updated_at)
+        (id, name, price,image_binary,type,material,checkout_link, created_at, updated_at)
     VALUES 
-        (%s,%s,%s,%s,%s,%s)
+        (%s,%s,%s,%s,%s,%s, %s, %s, %s)
     ''',
-    (uuid, name,price,image_binary,created_at,created_at)
+    (uuid, name,price,image_binary,type, material,checkout_link,created_at,created_at)
     )
 
     conn.commit()
@@ -56,7 +56,7 @@ def create_product(uuid:str, name:str, price:float,image_binary:str, created_at:
     cursor.close()
     conn.close()
 
-def put_product(name:str, price:float,updated_at:str,image_binary:str, status:str,uuid:str):
+def put_product(name:str, price:float,updated_at:str,image_binary:str, status:str,type:str,material:str,checkout_link:str,uuid:str):
     
     conn = get_conn()
 
@@ -68,10 +68,13 @@ def put_product(name:str, price:float,updated_at:str,image_binary:str, status:st
         price = %s,
         updated_at = %s,
         image_binary = %s,
-        status = %s
+        status = %s,
+        type= %s,
+        material = %s,
+        checkout_link = %s
     WHERE id = %s 
     ''',
-    (name, price, updated_at,image_binary,status, uuid)
+    (name, price, updated_at,image_binary,status,type,material,checkout_link, uuid)
  )
 
     conn.commit()
