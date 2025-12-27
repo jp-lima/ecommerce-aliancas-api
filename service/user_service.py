@@ -26,7 +26,7 @@ def verify_password(email:str, password:str):
         return JSONResponse(
                 status_code=201,
 
-                content={"username":user["name"], "access_token":token}
+                content={"username":user["name"], "access_token":token, "role":user["role"]}
 
                 )
     else:
