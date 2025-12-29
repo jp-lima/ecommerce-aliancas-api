@@ -24,3 +24,11 @@ refresh token
 
 depois de ser criado uma venda, aumentar o sale do produto
 
+
+colocar authorization no header dos endpoints
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 
-from fastapi import APIRouter,Form,File, UploadFile,Response
+from fastapi import APIRouter,Header,Form,File, UploadFile,Response
 from repositories.sales_repo import get_all_sales, get_sales_by_id
-from service.sales_service import service_create_sale,service_update_sale,service_get_carts_by_id  
+from service.sales_service import service_create_sale,service_update_sale,service_get_carts_by_id, service_del_cart_by_id  
 
 from models.sales import Request_new_sale, RequestCartById, Request_put_sale
 
@@ -19,6 +19,15 @@ def get_carts_by_user_id(requisition:RequestCartById):
     response = service_get_carts_by_id(requisition.authorization)
 
     return response
+
+@router.delete("/carts")
+def delete_carts_by_user_id(Authorization: str = Header(None), cart_id:str = None):
+    
+    response = service_del_cart_by_id(Authorization, cart_id) 
+
+
+    return response 
+
 
 @router.get("/")
 def receive_sales():

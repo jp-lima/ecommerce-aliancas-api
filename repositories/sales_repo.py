@@ -14,6 +14,26 @@ def get_all_sales():
 
     return sales
 
+def delete_sale_by_id(sale_id:str):
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute( '''
+    DELETE FROM sales 
+    WHERE id = %s 
+    ''',
+    (sale_id,)
+ )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return
+
+
 def get_carts_by_id(uuid:str):
 
     conn = get_conn()
