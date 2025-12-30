@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.sales import router as sales_router
 from routes.users import router as users_router
 from routes.products import router as products_router
-from routes.webhook import webhook as webhook_yampi
+from routes.webhook import router as webhook_yampi
 
 
 
