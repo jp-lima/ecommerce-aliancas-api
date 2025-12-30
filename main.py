@@ -22,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.includes_router(webhook_yampi)
+app.include_router(webhook_yampi)
 app.include_router(users_router)
 app.include_router(sales_router)
 
