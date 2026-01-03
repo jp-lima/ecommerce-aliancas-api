@@ -13,3 +13,13 @@ class WebhookYampi(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
+class CustomerInfos(BaseModel):
+    name:  str
+    first_name:  str
+    last_name: str 
+    email: str
+    cpf: str
+     
+    model_config = ConfigDict(extra = "allow")
+
+    

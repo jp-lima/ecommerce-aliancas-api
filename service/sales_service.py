@@ -39,8 +39,24 @@ def service_update_sale(authorization:str,sale_id:str, amount:int,value:float,us
     infos_sale = {"amount":amount, "value":value,"user_cep":user_cep,"status":status,"code":code,"sizes":sizes, "state":state,
                   "city":city,"neighboor":neighboor, "street":street, "complement":complement }
 
+    
+    if authorization == "admin":
+       
+        sale = get_sale_by_uuid(sale_id) 
+            
+        for key, value in infos_sale.items():
+            if not value:
+                
+                infos_sale[key] = sale[0][key]
+
+        put_sale( infos_sale["amount"],infos_sale["value"], infos_sale["user_cep"],infos_sale["status"],sale_id,infos_sale["code"], infos_sale["sizes"],infos_sale["state"],infos_sale["city"],infos_sale["neighboor"],infos_sale["street"],infos_sale["complement"])
+        
+
+        return infos_sale    
+    
+
     decoded_token = decode_access_token(authorization)
-     
+
     
     if decoded_token["role"] == "admin":
        

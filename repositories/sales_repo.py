@@ -14,6 +14,21 @@ def get_all_sales():
 
     return sales
 
+def get_sales_status_waiting_payment():
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM sales WHERE status = 'aguardando pagamento'")
+    sales = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return sales
+
+
+
+
 def delete_sale_by_id(sale_id:str):
     conn = get_conn()
 
