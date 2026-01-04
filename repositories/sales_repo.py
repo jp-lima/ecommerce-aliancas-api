@@ -63,7 +63,22 @@ def get_carts_by_id(uuid:str):
     conn.close()
 
     return carts 
+
+def get_sale_by_sale_id(uuid:str):
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute("SELECT * FROM sales WHERE id = %s ", (uuid,))
+
+    sales = cursor.fetchall()
     
+    cursor.close()
+    conn.close()
+
+    return sales 
+
+ 
 
 def get_sales_by_id(uuid:str):
     conn = get_conn()

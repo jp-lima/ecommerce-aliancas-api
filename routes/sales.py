@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter,Header,Form,File, UploadFile,Response
-from repositories.sales_repo import get_all_sales, get_sales_by_id
+from repositories.sales_repo import get_all_sales, get_sales_by_id, get_sale_by_sale_id
 from service.sales_service import service_create_sale,service_update_sale,service_get_carts_by_id, service_del_cart_by_id  
 
 from models.sales import Request_new_sale, RequestCartById, Request_put_sale
@@ -42,6 +42,13 @@ def get_one_sale_by_user_id(user_id:str):
     response = get_sales_by_id(user_id)
     
     return response
+
+@router.get("/sale/{sale_id}")
+def get_sale_by_id(sale_id:str):
+
+    response = get_sale_by_sale_id(sale_id) 
+
+    return response 
 
 @router.post("/")
 def new_sale(sale:Request_new_sale):
