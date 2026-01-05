@@ -11,7 +11,7 @@ from service.sales_service import service_update_sale
 
 def service_create_sale_by_webhook(payload:dict):
 
-#    print(payload)
+    print(payload)
     if payload.event == "order.paid":
 
 #        Merchant = payload.merchant
