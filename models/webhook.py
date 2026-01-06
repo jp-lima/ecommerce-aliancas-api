@@ -22,4 +22,14 @@ class CustomerInfos(BaseModel):
      
     model_config = ConfigDict(extra = "allow")
 
-    
+class ShippingAdress(BaseModel):
+    receiver:str
+    cep: str
+    street: str
+    number: str
+    complement: str
+    neighboor: str
+    city: str
+    state: str
+
+    model_config = ConfigDict(extra = "allow")

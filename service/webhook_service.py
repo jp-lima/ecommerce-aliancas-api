@@ -1,5 +1,5 @@
 from repositories.sales_repo import create_new_sale, get_sales_status_waiting_payment,put_sale  
-from models.webhook import Merchant, CustomerInfos
+from models.webhook import Merchant, CustomerInfos, ShippingAdress
 from repositories.user_repo import get_all_users
 
 from service.sales_service import service_update_sale 
@@ -11,7 +11,13 @@ from service.sales_service import service_update_sale
 
 def service_create_sale_by_webhook(payload:dict):
 
-    print(payload)
+#    print(payload.resource["shipping_address"])
+    
+    ShippingAdress = payload.resource["shipping_address"]["data"]
+    
+#    print(ShippingAdress["complement"])
+    print(ShippingAdress["zipcode"])
+    print("AQUI")
     if payload.event == "order.paid":
 
 #        Merchant = payload.merchant
@@ -37,8 +43,8 @@ def service_create_sale_by_webhook(payload:dict):
             if sale["value"] == payload.resource["value_total"] and len(user_founded.items()) > 0:
                 print(sale)
                 print("ENCONTRADO")
-                
-                service_update_sale("admin",sale["id"],None, None, None, "pagamento confirmado", None,None,None,None,None, None,None)  
+        
+                service_update_sale("admin",sale["id"],None, None, ShippingAdress["zipcode"], "pagamento confirmado", None,None,None,ShippingAdress["city"],ShippingAdress["neighborhood"], ShippingAdress["street"],ShippingAdress["complement"])  
        
 
 
