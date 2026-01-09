@@ -11,6 +11,7 @@ def get_all_products():
     conn.close()
 
     return products
+
 def get_one_product(product_id:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
@@ -55,6 +56,26 @@ def create_product(uuid:str, name:str, price:float,image_binary:str, type:str, m
 
     cursor.close()
     conn.close()
+
+def put_sale_of_one_product(sale:int, product_id:str):
+
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute( '''
+    UPDATE products SET 
+        sales = %s
+    WHERE id = %s 
+    ''',
+    (sale, product_id)
+ )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
 
 def put_product(name:str, price:float,updated_at:str,image_binary:str, status:str,type:str,material:str,checkout_link:str,uuid:str):
     

@@ -2,7 +2,7 @@ from os import stat
 import re
 from typing import DefaultDict
 import uuid
-from repositories.products_repo import create_product, put_product,del_product, get_one_product, get_image_by_id
+from repositories.products_repo import create_product, put_product,del_product, get_one_product, get_image_by_id, put_sale_of_one_product  
 from utils.access_token import decode_access_token 
 from datetime import datetime
 
@@ -27,6 +27,8 @@ def service_create_product(price:float, name:str,image_bytes:str, type:str,mater
         return "não autorizado"
 
 
+
+
 def service_update_product(price:float, name:str, image_binary:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
 
     infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
@@ -35,6 +37,7 @@ def service_update_product(price:float, name:str, image_binary:str,status:str,ty
 
 
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
+  
     decoded_token = decode_access_token(authorization)
 
     if decoded_token["role"] == "admin":
@@ -59,6 +62,15 @@ def service_update_product(price:float, name:str, image_binary:str,status:str,ty
         return "não autorizado"
 
 
+def service_update_sales_of_product(commmand:int, product_id:str):
+
+    if commmand == 1:
+
+       product = get_one_product(product_id)
+       put_sale_of_one_product(product[0]["sales"] + 1, product_id)
+    return "ok" 
+
+
 
 def service_delete_product(uuid:str, authorization:str):
     decoded_token = decode_access_token(authorization)
@@ -72,8 +84,6 @@ def service_delete_product(uuid:str, authorization:str):
 
     else:
         return "não autorizado"
-
- 
 
 
 

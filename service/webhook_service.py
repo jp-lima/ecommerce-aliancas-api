@@ -3,11 +3,8 @@ from models.webhook import Merchant, CustomerInfos, ShippingAdress
 from repositories.user_repo import get_all_users
 
 from service.sales_service import service_update_sale 
+from service.product_service import service_update_sales_of_product
 
-#uuid:str,user_id:str,product_id:str, amount:int,value:float, user_cep:str, status:str, code:str, sizes:str,state:str, city:str, neighboor:str,street:str, complement:str):
-
-#saber id do produto pelo preço e id do usuário
-#um produto deve ficar com status "aguardando pagamento" por uns 30 minutos
 
 def service_create_sale_by_webhook(payload:dict):
 
@@ -42,8 +39,8 @@ def service_create_sale_by_webhook(payload:dict):
 
             if sale["value"] == payload.resource["value_total"] and len(user_founded.items()) > 0:
                 print(sale)
-                print("ENCONTRADO")
         
+                service_update_sales_of_product(sale["sales"] + 1, sale["id"])
                 service_update_sale("admin",sale["id"],None, None, ShippingAdress["zipcode"], "pagamento confirmado", None,None,None,ShippingAdress["city"],ShippingAdress["neighborhood"], ShippingAdress["street"],ShippingAdress["complement"])  
        
 

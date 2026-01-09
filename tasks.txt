@@ -14,9 +14,9 @@
 
 - colocar os status code nas requisições
 
-armazenar o tamanho do anel na tabela de venda
+-armazenar o tamanho do anel na tabela de venda
 
-adicionar o código de rastreio nas vendas
+-adicionar o código de rastreio nas vendas
 
 alterar user
 

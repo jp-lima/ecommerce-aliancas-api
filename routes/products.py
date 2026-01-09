@@ -3,7 +3,7 @@ from models.model_product import Request_create_product, Request_update_product,
 
 
 from repositories.products_repo import get_all_products, get_image_by_id, get_one_product
-from service.product_service import service_create_product, service_delete_product, service_update_product
+from service.product_service import service_create_product, service_delete_product, service_update_product, service_update_sales_of_product
 
 
 router = APIRouter(
@@ -17,6 +17,12 @@ def receive_product():
     response_products = get_all_products()
     
     return response_products
+
+@router.get("/teste")
+def teste():
+    service_update_sales_of_product(1,"2969ac0f-bc0d-4252-99d4-9dd6a258bb8e")
+
+    return
 
 @router.get("/{id}/image")
 def receive_product_image(id:str):
