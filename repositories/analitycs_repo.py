@@ -35,7 +35,29 @@ def get_rows_of_analitycs():
 
     return datas
 
+def put_row_of_analityc(year:str, mounth:str, orders_count:int, revenue:float, new_users:int):
 
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+    '''
+     UPDATE analitycs_by_mounth SET 
+        orders_count = %s,
+        revenue = %s, 
+        new_users = %s
+       WHERE
+       year = %s AND
+       mounth = %s
+    ''',
+    ( orders_count, revenue, new_users, year,mounth)
+    )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
 
 
 
