@@ -156,6 +156,18 @@ def get_sale_by_uuid(uuid:str):
     return sales
 
 
+def get_all_carts():
+
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM `sales` WHERE status = 'cart'")
+    sales = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return sales
 
 
 
