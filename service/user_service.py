@@ -1,6 +1,7 @@
-from os import confstr
+from os import access, confstr
 from fastapi.responses import JSONResponse
-from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user  
+from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user, get_user_by_id, put_password  
+from utils import access_token
 from utils.password import create_hash, verify_hash
 from utils.access_token import create_access_token, decode_access_token
 from service.analitycs_service import service_add_new_estatistic_on_analitycs 
@@ -26,15 +27,21 @@ def verify_password(email:str, password:str):
 
         return JSONResponse(
                 status_code=201,
-
                 content={"username":user["name"],"role":user["role"],"user_id": user["id"], "access_token":token, }
-
                 )
     else:
         return JSONResponse(
                 status_code=401,
                 content="Não autorizado"
                 )
+
+def service_update_password_user(authorization:str, new_password:str):
+    
+    access_token = decode_access_token(authorization)
+    
+    hashed_password = create_hash(new_password)
+
+    put_password(hashed_password, access_token["sub"])
 
 
 def service_get_all_users(authorization:str):

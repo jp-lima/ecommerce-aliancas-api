@@ -16,6 +16,9 @@ class UserDeleteRequest(BaseModel):
 class RequestGetAuthorization(BaseModel):
     authorization:str
 
+class RequestNewPassword(BaseModel):
+    authorization:str
+    new_password:str
 
 
 

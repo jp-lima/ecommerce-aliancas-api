@@ -1,6 +1,19 @@
 from db import get_conn
 
 
+def get_user_by_id(uuid:str):
+    conn = get_conn()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM users WHERE id = %s", (uuid,))
+    users = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return users
+
+
 def get_all_users():
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
@@ -25,7 +38,6 @@ def get_user_by_email(email: str):
     return users
 
 def post_new_user(uuid:str, name:str, email:str, password_hash:str, created_at:str,phone:str):
-
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
@@ -61,7 +73,26 @@ def del_user(uuid:str):
     cursor.close()
     conn.close()
 
+def put_password(new_password_hashed:str, user_id:str):
+    conn = get_conn()
 
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute( '''
+        UPDATE users SET 
+        password_hash = %s
+    WHERE id = %s 
+     ''',
+    (new_password_hashed, user_id)
+ )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+
+    
 
 
 
