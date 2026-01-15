@@ -24,7 +24,7 @@ def update_password(request:RequestNewPassword):
     response = service_update_password_user(request.authorization, request.new_password)
 
 
-    return "rodando"
+    return response 
 
 
 @router.post("/auth")

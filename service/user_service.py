@@ -43,6 +43,10 @@ def service_update_password_user(authorization:str, new_password:str):
 
     put_password(hashed_password, access_token["sub"])
 
+    return JSONResponse(
+            status_code=200,
+            content= "senha alterada com sucesso"
+            )
 
 def service_get_all_users(authorization:str):
 
