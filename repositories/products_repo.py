@@ -4,7 +4,7 @@ def get_all_products():
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,name,price,sales,type,material, checkout_link, status, created_at FROM products")
+    cursor.execute("SELECT id,name,price,sales,type,material,stone, checkout_link, status, created_at FROM products")
     products = cursor.fetchall()
 
     cursor.close()
@@ -16,7 +16,7 @@ def get_one_product(product_id:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id,name,sales,price,type,material, checkout_link, status, created_at  FROM products WHERE id = %s",(product_id,))
+    cursor.execute("SELECT id,name,sales,price,type,material,stone, checkout_link, status, created_at  FROM products WHERE id = %s",(product_id,))
     product = cursor.fetchall()
 
     cursor.close()

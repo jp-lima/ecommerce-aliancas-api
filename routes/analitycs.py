@@ -20,7 +20,10 @@ def send_analitycs_by_mounth():
 
     return response
 
+@router.post("/user-loged")
+def user_be_loged():
 
+    return "running"
 
 
 

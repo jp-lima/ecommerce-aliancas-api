@@ -32,6 +32,9 @@ def service_add_new_estatistic_on_analitycs(dict:dict):
 
         service_add_new_estatistic_on_analitycs(dict) 
 
+def service_post_a_user_online():
 
+
+    return
 
 
