@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from repositories.analitycs_repo import create_row_of_analitycs, get_rows_of_analitycs, put_row_of_analityc   
-from service.analitycs_service import service_add_new_estatistic_on_analitycs
-
+from service.analitycs_service import service_add_new_estatistic_on_analitycs, service_post_a_user_online
+from repositories.analitycs_users_activity import get_all_rows_from_analitycs_users, create_row_analitycs_users
 router = APIRouter(
 
 prefix = "/analitycs",
@@ -23,7 +23,12 @@ def send_analitycs_by_mounth():
 @router.post("/user-loged")
 def user_be_loged():
 
-    return "running"
+
+    teste = get_all_rows_from_analitycs_users()
+    service_post_a_user_online()
+ #   create_row_analitycs_users("2026-01-16 15:01:51.122725", 0, 0)
+
+    return teste 
 
 
 
