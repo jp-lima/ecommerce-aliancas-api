@@ -20,6 +20,14 @@ def send_analitycs_by_mounth():
 
     return response
 
+@router.get("/users-activity")
+def send_analitycs_of_users_activity():
+
+    response = get_all_rows_from_analitycs_users()
+    return response
+
+
+
 @router.post("/user-loged")
 def user_be_loged():
 
