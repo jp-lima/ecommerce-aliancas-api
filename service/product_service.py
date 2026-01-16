@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 
-def service_create_product(price:float, name:str,image_bytes:str, type:str,material:str,checkout_link:str,authorization:str):
+def service_create_product(price:float, name:str,image_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str):
     
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
@@ -18,8 +18,8 @@ def service_create_product(price:float, name:str,image_bytes:str, type:str,mater
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
 
     if decoded_token["role"] == "admin":
-            
-        create_product(str(new_uuid),name, price, image_bytes, type, material,checkout_link,formato_iso )
+           
+        create_product(str(new_uuid),name, price, image_bytes, type, stone, material,checkout_link,formato_iso )
 
         return "concluido"
 

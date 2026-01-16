@@ -46,10 +46,11 @@ async def create_product(
     type: str = Form(...),
     material: str = Form(...),
     checkout_link: str = Form(...),
+    stone: int = Form(...), 
     image: UploadFile = File(...)
     ):
     image_bytes = await image.read()
-    response = service_create_product(price,name,image_bytes,type,material,checkout_link,authorization)
+    response = service_create_product(price,name,image_bytes,type,stone,material,checkout_link,authorization)
 
     return Response(content=response) 
 
