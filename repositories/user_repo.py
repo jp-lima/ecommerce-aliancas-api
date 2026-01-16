@@ -18,7 +18,7 @@ def get_all_users():
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id, name, email FROM users")
+    cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
 
     cursor.close()
