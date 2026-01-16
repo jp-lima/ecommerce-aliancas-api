@@ -60,7 +60,7 @@ def service_get_all_users(authorization:str):
     else:
         return "não autorizado"
 
-def service_create_user(email:str, password:str, name:str):
+def service_create_user(email:str, password:str, name:str, phone:str):
     
     hashed_password = create_hash(password)
     new_uuid = uuid.uuid4()
@@ -69,7 +69,7 @@ def service_create_user(email:str, password:str, name:str):
 
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
 
-    post_new_user(str(new_uuid), name,email, hashed_password, formato_iso, "")
+    post_new_user(str(new_uuid), name,email, hashed_password, formato_iso, phone)
 
     service_add_new_estatistic_on_analitycs({"estatistic":"new_user", "data":""})
 

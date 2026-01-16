@@ -8,6 +8,7 @@ class UserCreateRequest(BaseModel):
     name:str
     email:str
     password:str
+    phone:str
 
 class UserDeleteRequest(BaseModel):
     user_id:str
@@ -19,6 +20,5 @@ class RequestGetAuthorization(BaseModel):
 class RequestNewPassword(BaseModel):
     authorization:str
     new_password:str
-
 
 

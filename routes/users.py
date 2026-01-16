@@ -46,7 +46,7 @@ def delete_user(user:UserDeleteRequest):
 @router.post("/create-user")
 def create(user:UserCreateRequest):
 
-    response = service_create_user(user.email, user.password, user.name)
+    response = service_create_user(user.email, user.password, user.name, user.phone )
 
 
     return response
