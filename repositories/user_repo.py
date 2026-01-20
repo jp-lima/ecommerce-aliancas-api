@@ -30,7 +30,7 @@ def get_user_by_email(email: str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT id, name, email,role,password_hash FROM users WHERE email = %s LIMIT 1",(email,))
+    cursor.execute("SELECT * FROM users WHERE email = %s LIMIT 1",(email,))
     users = cursor.fetchone()
 
     cursor.close()

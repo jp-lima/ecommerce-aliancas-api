@@ -2,17 +2,17 @@ from datetime import date, datetime
 from db import get_conn
 
 
-def create_row_analitycs_users(datetime:str, users_online:int, sales_mades:int):
+def create_row_analitycs_users(datetime:str, users_online:int, sales_mades:int, new_users:int):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
     cursor.execute(
     '''
     INSERT INTO analitycs_users_activity
-        (datetime, users_online, sales_mades)
+        (datetime, users_online, sales_mades, new_users)
     VALUES 
-        (%s,%s,%s)
+        (%s,%s,%s, %s)
     ''',
-    (datetime, users_online, sales_mades)
+    (datetime, users_online, sales_mades, new_users)
     )
 
     conn.commit()

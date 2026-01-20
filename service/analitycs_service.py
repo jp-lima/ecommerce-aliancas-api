@@ -33,25 +33,39 @@ def service_add_new_estatistic_on_analitycs(dict:dict):
 
         service_add_new_estatistic_on_analitycs(dict) 
 
-def service_post_a_user_online():
+def service_post_a_user_online(command:str):
 
+    locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
     #dt com ano passado para nunca ser igual a now caso lista all_rows seja vazia
     dt = datetime(2025, 1, 16, 10, 30, 0) 
+
+    dict = {"users_online":0, "sales_mades":0,"datetime":dt, "new_users":0}
 
     all_rows = get_all_rows_from_analitycs_users()
 
     if all_rows:
-        dt = all_rows[-1]["datetime"]
+        dict = all_rows[-1]
+        
+    print(dict)
+    match command:
+            case "users_online":
+                dict["users_online"] += 1 
+            case "new_user":
+                dict["new_users"] += 1
+            case "sales_mades":
+                dict["sales_mades"] += 1 
+
 
     now = datetime.now()
-
-
     # data + hora 
     if dt.replace(minute=0,second=0, microsecond=0) == now.replace(minute=0, second=0, microsecond=0):
-        put_row_from_analitycs_users(all_rows[-1]["users_online"] + 1, all_rows[-1]["sales_mades"], all_rows[-1]["datetime"])
-
+        #put_row_from_analitycs_users(dict["users_online"] ,dict["sales_mades"], dict["datetime"],dict["new_users"] )
+        print(dict) 
     # nada igual
     else:
-        create_row_analitycs_users(now, 1, 0) 
-
+       # create_row_analitycs_users(now, 1, 0,0) 
+         return
     return
+
+
+
