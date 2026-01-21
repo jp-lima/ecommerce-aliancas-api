@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Form,File, UploadFile,Response, HTTPException
 from repositories.user_repo import get_all_users,get_user_by_email
-from service.user_service import verify_password, service_create_user,service_delete_user,service_get_all_users,service_update_password_user  
-from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest,RequestGetAuthorization, RequestNewPassword       
+from service.user_service import verify_password, service_create_user,service_delete_user,service_get_all_users,service_update_password_user,service_update_users_infos     
+from models.user import UserRequestLogin, UserCreateRequest, UserDeleteRequest,RequestGetAuthorization,RequestNewPassword,RequestPutUser       
 
 
 router = APIRouter(
@@ -16,10 +16,17 @@ def get_users(request:RequestGetAuthorization):
     all_users = service_get_all_users(request.authorization)
     return all_users
 
+@router.put("/")
+def admin_put_user_infos(request: RequestPutUser):
+
+    response = service_update_users_infos(request.authorization, request.user_id,request.password, request.user_name,request.phone,request.email)    
+
+    return response
+
+
 @router.put("/update-password")
 def update_password(request:RequestNewPassword):
 
-    print(request)
 
     response = service_update_password_user(request.authorization, request.new_password)
 

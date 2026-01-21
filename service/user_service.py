@@ -1,6 +1,6 @@
 from os import access, confstr
 from fastapi.responses import JSONResponse
-from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user, get_user_by_id, put_password  
+from repositories.user_repo import del_user, get_all_users,get_user_by_email, post_new_user, get_user_by_id, put_user    
 from utils import access_token
 from utils.password import create_hash, verify_hash
 from utils.access_token import create_access_token, decode_access_token
@@ -35,15 +35,38 @@ def verify_password(email:str, password:str):
                 content="Não autorizado"
                 )
 
+def service_update_users_infos(authorization:str, user_id:str, password:str, username:str,phone:str, email:str):
+    
+    hashed_password = None
+    user = get_user_by_id(user_id)
+    if password:
+
+        hashed_password = create_hash(password)
+
+    
+    decoded_token = decode_access_token(authorization)
+    
+    if decoded_token["role"] == "admin" or decoded_token["sub"] == user_id:
+        print("autorizado")
+
+        infos_user = {"user_id":user_id, "name":username, "email":email, "password_hash":hashed_password, "phone":phone }
+
+        for key, value in infos_user.items():
+            if not value:
+                infos_user[key] = user[0][key]
+   
+        put_user(infos_user["name"], infos_user["phone"], infos_user["email"], infos_user["password_hash"], infos_user["user_id"])
+
+    else:
+        return JSONResponse(status_code=401,
+                            content="Unauthorized")
+
+    return decoded_token
+
+
 def service_update_password_user(authorization:str, new_password:str):
     
-    access_token = decode_access_token(authorization)
-    
-    hashed_password = create_hash(new_password)
-
-    put_password(hashed_password, access_token["sub"])
-
-    return JSONResponse(
+       return JSONResponse(
             status_code=200,
             content= "senha alterada com sucesso"
             )

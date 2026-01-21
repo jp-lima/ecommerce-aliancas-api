@@ -73,17 +73,20 @@ def del_user(uuid:str):
     cursor.close()
     conn.close()
 
-def put_password(new_password_hashed:str, user_id:str):
+def put_user(username:str,phone:str,email:str, password_hashed:str, user_id:str):
     conn = get_conn()
 
     cursor = conn.cursor(dictionary = True)
 
     cursor.execute( '''
-        UPDATE users SET 
+        UPDATE users SET
+        name = %s,
+        phone = %s, 
+        email = %s,
         password_hash = %s
     WHERE id = %s 
      ''',
-    (new_password_hashed, user_id)
+    (username, phone, email,password_hashed, user_id)
  )
 
     conn.commit()
