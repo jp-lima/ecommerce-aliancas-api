@@ -45,8 +45,7 @@ def service_post_a_user_online(command:str):
 
     if all_rows:
         dict = all_rows[-1]
-        
-    print(dict)
+         
     match command:
             case "users_online":
                 dict["users_online"] += 1 
@@ -58,13 +57,13 @@ def service_post_a_user_online(command:str):
 
     now = datetime.now()
     # data + hora 
-    if dt.replace(minute=0,second=0, microsecond=0) == now.replace(minute=0, second=0, microsecond=0):
-        #put_row_from_analitycs_users(dict["users_online"] ,dict["sales_mades"], dict["datetime"],dict["new_users"] )
+    if dict["datetime"].replace(minute=0,second=0, microsecond=0) == now.replace(minute=0, second=0, microsecond=0):
+        put_row_from_analitycs_users(dict["users_online"] ,dict["sales_mades"], dict["datetime"],dict["new_users"] )
         print(dict) 
     # nada igual
     else:
-       # create_row_analitycs_users(now, 1, 0,0) 
-         return
+        create_row_analitycs_users(now,dict["users_online"] ,dict["sales_mades"], dict["new_users"]) 
+
     return
 
 

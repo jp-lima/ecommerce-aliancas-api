@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from locale import windows_locale
 from db import get_conn
 
 
@@ -32,21 +33,21 @@ def get_all_rows_from_analitycs_users():
 
     return products
 
-def put_row_from_analitycs_users(users_online:int, sales_mades:int, datetime:str):
+def put_row_from_analitycs_users(users_online:int, sales_mades:int, datetime:str, new_users:int ):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
     cursor.execute(
     '''
     UPDATE analitycs_users_activity SET
      users_online = %s,
-     sales_mades = %s
+     sales_mades = %s,
+     new_users = %s
     WHERE datetime = %s 
     ''',
-    ( users_online, sales_mades, datetime,)
+    ( users_online, sales_mades,new_users, datetime,)
     )
 
     conn.commit()
-
     cursor.close()
     conn.close()
 

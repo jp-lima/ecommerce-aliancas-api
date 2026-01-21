@@ -1,5 +1,6 @@
 from repositories.sales_repo import create_new_sale,put_sale,get_sale_by_uuid, get_carts_by_id,delete_sale_by_id   
 from service.product_service import service_update_product 
+from service.analitycs_service import service_post_a_user_online
 from utils.access_token import decode_access_token
 import uuid 
 from fastapi.responses import JSONResponse
@@ -12,7 +13,7 @@ def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,stat
 
 
     create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status, code,sizes,state,city,neighboor,street,complement)
-    
+   
 
     return "criado com sucesso"
 
