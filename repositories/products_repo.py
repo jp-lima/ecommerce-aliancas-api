@@ -47,7 +47,7 @@ def create_product(uuid:str, name:str, price:float,image_binary:str,image2_binar
     INSERT INTO products 
         (id, name, price,image_binary,image2_binary,image3_binary,image4_binary,type, stone,material,checkout_link, created_at, updated_at)
     VALUES 
-        (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s)
+        (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s)
     ''',
     (uuid, name,price,image_binary,image2_binary,image3_binary,image4_binary,type,stone, material,checkout_link,created_at,created_at)
     )
