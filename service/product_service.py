@@ -30,9 +30,19 @@ def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:st
         return JSONResponse(status_code=401, content="Não autorizado") 
 
 
+def service_get_image_for_product(uuid:str, index:int):
+
+    image = get_image_by_id(uuid)
+
+    if not image[index -1]:
+        return "Não encontrado" 
+
+    return image[ index - 1] 
 
 
-def service_update_product(price:float, name:str, image_binary:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
+
+
+def service_update_product(price:float, name:str, image_binary:str,image2_binary:str,image3_binary:str,image4_binary:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
 
     infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
 
@@ -48,14 +58,24 @@ def service_update_product(price:float, name:str, image_binary:str,status:str,ty
         product = get_one_product(product_id)
             
         if not image_binary:
-            image_binary = get_image_by_id(product_id)
+            image_binary = service_get_image_for_product(product_id, 1)
+       
+        if not image2_binary:
+            image2_binary = service_get_image_for_product(product_id, 2)
+        
+        if not image3_binary:
+            image3_binary = service_get_image_for_product(product_id, 3)
+
+        if not image4_binary:
+            image4_binary = service_get_image_for_product(product_id, 4)
+
 
         for key, value in infos_produto.items():
             if not value:
 
                 infos_produto[key] = product[0][key]
 
-        put_product(infos_produto["name"],infos_produto["price"],formato_iso,image_binary,infos_produto["status"],infos_produto["type"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
+        put_product(infos_produto["name"],infos_produto["price"],formato_iso,image_binary,image2_binary,image3_binary,image4_binary,infos_produto["status"],infos_produto["type"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
         
 
         return infos_produto    
@@ -88,16 +108,6 @@ def service_delete_product(uuid:str, authorization:str):
     else:
         return "não autorizado"
 
-
-
-def service_get_image_for_product(uuid:str, index:int):
-
-    image = get_image_by_id(uuid)
-
-    if not image[index -1]:
-        return "Não encontrado" 
-
-    return image[ index - 1] 
 
 
 
