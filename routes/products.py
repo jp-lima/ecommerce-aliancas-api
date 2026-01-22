@@ -56,9 +56,9 @@ async def create_product(
     ):
     image_bytes = await image.read()
     
-    image2_bytes = await image2.read()
-    image3_bytes = await image3.read()
-    image4_bytes = await image4.read()
+    image2_bytes = await image2.read() if image2 else None
+    image3_bytes = await image3.read() if image3 else None
+    image4_bytes = await image4.read() if image4 else None
     
     response = service_create_product(price,name,image_bytes,image2_bytes, image3_bytes, image4_bytes,type,stone,material,checkout_link,authorization)
 
