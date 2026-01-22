@@ -3,7 +3,9 @@ from fastapi.responses import JSONResponse
 import re
 from typing import DefaultDict
 import uuid
-from repositories.products_repo import create_product, put_product,del_product, get_one_product, get_image_by_id, put_sale_of_one_product  
+from repositories.products_repo import * 
+
+
 from utils.access_token import decode_access_token 
 from datetime import datetime
 
@@ -85,6 +87,17 @@ def service_delete_product(uuid:str, authorization:str):
 
     else:
         return "não autorizado"
+
+
+
+def service_get_image_for_product(uuid:str, index:int):
+
+    image = get_image_by_id(uuid)
+
+    if not image[index -1]:
+        return "Não encontrado" 
+
+    return image[ index - 1] 
 
 
 

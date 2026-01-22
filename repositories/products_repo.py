@@ -29,13 +29,16 @@ def get_image_by_id(uuid:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT image_binary FROM products WHERE id = %s",(uuid,))
-    image = cursor.fetchall()
+    cursor.execute("SELECT image_binary, image2_binary, image3_binary, image4_binary FROM products WHERE id = %s",(uuid,))
+    images = cursor.fetchall()
 
     cursor.close()
     conn.close()
     
-    return image[0]["image_binary"] 
+    i = list(images[0].values()) 
+    print(i[0], "AQUI")
+
+    return i 
 
 def create_product(uuid:str, name:str, price:float,image_binary:str,image2_binary:str,image3_binary:str,image4_binary:str, type:str, stone:int, material:str,checkout_link:str, created_at:str):
     conn = get_conn()
