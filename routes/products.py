@@ -30,6 +30,7 @@ def receive_product_image(id:str):
     response = get_image_by_id(id)
 
     return Response(content=response)
+
 @router.get("/{id}")
 def receive_one_product(id:str):
 
@@ -47,10 +48,18 @@ async def create_product(
     material: str = Form(...),
     checkout_link: str = Form(...),
     stone: int = Form(...), 
-    image: UploadFile = File(...)
+    image: UploadFile = File(...),
+    image2: UploadFile = File(None),
+    image3: UploadFile = File(None),
+    image4: UploadFile = File(None)
     ):
     image_bytes = await image.read()
-    response = service_create_product(price,name,image_bytes,type,stone,material,checkout_link,authorization)
+    
+    image2_bytes = await image2.read()
+    image3_bytes = await image3.read()
+    image4_bytes = await image4.read()
+    
+    response = service_create_product(price,name,image_bytes,image2_bytes, image3_bytes, image4_bytes,type,stone,material,checkout_link,authorization)
 
     return Response(content=response) 
 

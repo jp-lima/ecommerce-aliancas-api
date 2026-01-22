@@ -1,4 +1,5 @@
 from os import stat
+from fastapi.responses import JSONResponse
 import re
 from typing import DefaultDict
 import uuid
@@ -8,7 +9,7 @@ from datetime import datetime
 
 
 
-def service_create_product(price:float, name:str,image_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str):
+def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:str,image3_bytes:str,image4_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str):
     
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
@@ -19,12 +20,12 @@ def service_create_product(price:float, name:str,image_bytes:str,type:str,stone:
 
     if decoded_token["role"] == "admin":
            
-        create_product(str(new_uuid),name, price, image_bytes, type, stone, material,checkout_link,formato_iso )
+        create_product(str(new_uuid),name, price, image_bytes, image_2bytes, image3_bytes, image4_bytes, type, stone, material,checkout_link,formato_iso )
 
-        return "concluido"
+        return JSONResponse(status_code=201,content="produto criado")
 
     else:
-        return "não autorizado"
+        return JSONResponse(status_code=401, content="Não autorizado") 
 
 
 

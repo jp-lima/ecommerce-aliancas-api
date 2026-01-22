@@ -37,7 +37,7 @@ def get_image_by_id(uuid:str):
     
     return image[0]["image_binary"] 
 
-def create_product(uuid:str, name:str, price:float,image_binary:str, type:str, stone:int, material:str,checkout_link:str, created_at:str):
+def create_product(uuid:str, name:str, price:float,image_binary:str,image2_binary:str,image3_binary:str,image4_binary:str, type:str, stone:int, material:str,checkout_link:str, created_at:str):
     conn = get_conn()
 
     cursor = conn.cursor(dictionary=True)
@@ -45,11 +45,11 @@ def create_product(uuid:str, name:str, price:float,image_binary:str, type:str, s
     cursor.execute(
     '''
     INSERT INTO products 
-        (id, name, price,image_binary,type, stone,material,checkout_link, created_at, updated_at)
+        (id, name, price,image_binary,image2_binary,image3_binary,image4_binary,type, stone,material,checkout_link, created_at, updated_at)
     VALUES 
-        (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s)
+        (%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s,%s,%s)
     ''',
-    (uuid, name,price,image_binary,type,stone, material,checkout_link,created_at,created_at)
+    (uuid, name,price,image_binary,image2_binary,image3_binary,image4_binary,type,stone, material,checkout_link,created_at,created_at)
     )
 
     conn.commit()
