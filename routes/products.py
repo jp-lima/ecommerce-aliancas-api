@@ -61,7 +61,7 @@ async def create_product(
     
     response = service_create_product(price,name,image_bytes,image2_bytes, image3_bytes, image4_bytes,type,stone,material,checkout_link,authorization)
 
-    return Response(content=response) 
+    return response
 
 @router.put("/")
 async def update_product( 
