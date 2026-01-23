@@ -88,7 +88,7 @@ async def update_product(
     
 
 
-    response = service_update_product(price,name,image_bytes,status,type,material,checkout_link,product_id,authorization)
+    response = service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image4_bytes,status,type,material,checkout_link,product_id,authorization)
 
     return response
     
