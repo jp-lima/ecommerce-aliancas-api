@@ -38,7 +38,7 @@ def service_create_sale_by_webhook(payload:dict):
                 service_update_sale("admin",sale["id"],None, None, ShippingAdress["zipcode"], "pagamento confirmado", None,None,None,ShippingAdress["city"],ShippingAdress["neighborhood"], ShippingAdress["street"],ShippingAdress["complement"])  
                 service_add_new_estatistic_on_analitycs({"estatistic":"revenue", "data": payload.resource["value_total"]})
                 service_add_new_estatistic_on_analitycs({"estatistic":"orders_count", "data":""}) 
-                service_post_a_user_online("sales_mades")
+                service_post_a_user_online("sales_mades", "user")
                 break
 
     return

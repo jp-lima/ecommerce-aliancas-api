@@ -39,6 +39,10 @@ def user_be_loged(request:getAuthorization):
  #   create_row_analitycs_users("2026-01-16 15:01:51.122725", 0, 0)
 
     return  
+@router.get("/teste")
+def test():
+    
+    service_add_new_estatistic_on_analitycs({"estatistic":"users_online", "data":500.8})
 
 
 

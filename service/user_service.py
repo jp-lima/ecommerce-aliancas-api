@@ -36,16 +36,13 @@ def verify_password(email:str, password:str):
                 )
 
 def service_update_users_infos(authorization:str, user_id:str, password:str, username:str,phone:str, email:str):
-    
     hashed_password = None
     user = get_user_by_id(user_id)
     if password:
 
         hashed_password = create_hash(password)
-
     
     decoded_token = decode_access_token(authorization)
-    
     if decoded_token["role"] == "admin" or decoded_token["sub"] == user_id:
         print("autorizado")
 
@@ -94,7 +91,7 @@ def service_create_user(email:str, password:str, name:str, phone:str):
 
     post_new_user(str(new_uuid), name,email, hashed_password, formato_iso, phone)
    
-    service_post_a_user_online("new_user")
+    service_post_a_user_online("new_user", "user")
     service_add_new_estatistic_on_analitycs({"estatistic":"new_user", "data":""})
 
     return "user criado"
