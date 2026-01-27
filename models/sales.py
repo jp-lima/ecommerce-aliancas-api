@@ -34,5 +34,15 @@ class Request_put_sale(BaseModel):
     street:str | None = None
     complement:str | None = None
 
+class RequestCheckout(BaseModel):
+
+    products_id:list
+
+
+
+
+
+
+
 
 

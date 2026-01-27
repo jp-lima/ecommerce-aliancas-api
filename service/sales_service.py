@@ -4,13 +4,18 @@ from service.analitycs_service import service_post_a_user_online
 from utils.access_token import decode_access_token
 import uuid 
 from fastapi.responses import JSONResponse
+import mercadopago
+
+
+
+sdk = mercadopago.SDK("APP_USR-7717360816237127-012616-ed804bab6fc3b9fa2a1d0c3db2428df0-3161036082")
+
 
 def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str, code:str, sizes:str,state:str,city:str, neighboor:str, street:str, complement:str ):
 
     decoded_token = decode_access_token(authorization)
 
     new_id = uuid.uuid4() 
-
 
     create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status, code,sizes,state,city,neighboor,street,complement)
    
@@ -92,7 +97,33 @@ def service_get_carts_by_id(authorization:str):
     return carts      
 
 
+def service_take_checkout():
+   
+    preference_data = {
 
+            "items":[
+                {
+                    "items":"Anel de prata",
+                    "quantity":1,
+                    "unit_price":134
+
+                }
+                ],
+            "external_reference":"iddealiancaseternas123",
+            "back_urls":{
+                     "success": "https://seusite.com/sucesso",
+            "failure": "https://seusite.com/erro",
+            "pending": "https://seusite.com/pendente"
+                    },
+                "auto_return":"approved"
+
+            }
+
+    preference = sdk.preference().create(preference_data)
+
+    print(preference)
+
+    return preference["response"]["init_point"] 
 
 
 
