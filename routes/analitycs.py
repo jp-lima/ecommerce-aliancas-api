@@ -35,7 +35,7 @@ def user_be_loged(request:getAuthorization):
 
 
 #    teste = get_all_rows_from_analitycs_users()
-    service_post_a_user_online("users_online", request.authorization)
+    service_add_new_estatistic_on_analitycs({"estatistic":"users_online", "data":500.8})
  #   create_row_analitycs_users("2026-01-16 15:01:51.122725", 0, 0)
 
     return  
