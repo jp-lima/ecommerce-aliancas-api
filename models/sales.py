@@ -2,14 +2,12 @@ from enum import auto
 from pydantic import BaseModel
 
 class Request_new_sale(BaseModel):
-    value:float
-    product_id:str
-    amount:int
+    products_id:list
+    amounts:list
+    user_id:str
     user_cep:str
-    authorization:str
     sizes: str
     status: str | None = None
-    code:str | None = None
     state:str
     city:str
     neighboor:str
@@ -35,7 +33,6 @@ class Request_put_sale(BaseModel):
     complement:str | None = None
 
 class RequestCheckout(BaseModel):
-
     products_id:list
 
 

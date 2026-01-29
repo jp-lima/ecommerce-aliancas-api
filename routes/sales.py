@@ -11,10 +11,10 @@ prefix ="/sales",
 tags=["sales"]
         )
 
-@router.post("/checkout")
-def checkout(request:RequestCheckout):
+@router.post("/")
+def checkout(request:Request_new_sale):
     
-    response = service_take_checkout()     
+    response = service_take_checkout(request.user_id, request.products_id, request.amounts, request.user_cep, request.sizes, request.state,request.city, request.neighboor, request.street, request.complement )     
 
     return response 
 
@@ -63,12 +63,12 @@ def get_sale_by_id(sale_id:str):
 
     return response 
 
-@router.post("/")
-def new_sale(sale:Request_new_sale):
+#@router.post("/")
+#def new_sale(sale:Request_new_sale):
 
-    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization, sale.code, sale.sizes, sale.state, sale.city, sale.neighboor, sale.street, sale.complement) 
+#    response = service_create_sale(sale.product_id, sale.amount,sale.value,sale.user_cep, sale.status, sale.authorization, sale.code, sale.sizes, sale.state, sale.city, sale.neighboor, sale.street, sale.complement) 
 
-    return sale 
+#    return sale 
     
 @router.put("/")
 def update_sale(sale:Request_put_sale):
