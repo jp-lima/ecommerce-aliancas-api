@@ -105,7 +105,7 @@ def service_take_checkout():
                 {
                     "items":"Anel de prata",
                     "quantity":1,
-                    "unit_price":134
+                    "unit_price":1
 
                 }
                 ],

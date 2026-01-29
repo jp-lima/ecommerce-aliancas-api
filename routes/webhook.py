@@ -24,13 +24,15 @@ def webhook(data: dict):
     payment_id = data.get("data", {}).get("id")
 
     payment = sdk.payment().get(payment_id)
-    info = payment["response"]
+    #info = payment["response"]
+        
+    print(payment)
 
-    user_id = info["external_reference"]
-    status = info["status"]
+    #user_id = info["external_reference"]
+    #status = info["status"]
 
-    if status == "approved":
-        print(f"Usuário {user_id} pagou com sucesso")
+#    if status == "approved":
+#        print(f"Usuário {user_id} pagou com sucesso")
 
 
 
