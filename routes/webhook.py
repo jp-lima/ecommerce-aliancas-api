@@ -26,7 +26,9 @@ def webhook(data: dict):
     payment = sdk.payment().get(payment_id)
 
     print(data)
-    service_create_sale_by_webhook(data["response"]["external_reference"])
+    if data.get("response"):
+
+        service_create_sale_by_webhook(data["response"]["external_reference"])
 
 
 
