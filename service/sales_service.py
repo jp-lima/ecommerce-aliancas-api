@@ -136,6 +136,7 @@ def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user
 
             }
 
+    print(preference_data) 
     preference = sdk.preference().create(preference_data)
 
     return preference["response"]["init_point"] 
