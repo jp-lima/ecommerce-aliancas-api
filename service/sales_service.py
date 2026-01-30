@@ -123,7 +123,7 @@ def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user
 
                 }
                 ],
-            "external_reference":"iddealiancaseternas123",
+            "external_reference":new_id,
             "back_urls":{
                      "success": "https://seusite.com/sucesso",
             "failure": "https://seusite.com/erro",

@@ -1,8 +1,8 @@
-from models.webhook import WebhookYampi
+from models.webhook import * 
 from fastapi import APIRouter,Form,File, UploadFile,Response, HTTPException
 from service.webhook_service import service_create_sale_by_webhook
 import mercadopago
-
+from service.sales_service import *
 
 sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
@@ -24,15 +24,8 @@ def webhook(data: dict):
     payment_id = data.get("data", {}).get("id")
 
     payment = sdk.payment().get(payment_id)
-    #info = payment["response"]
-        
-    print(payment)
-
-    #user_id = info["external_reference"]
-    #status = info["status"]
-
-#    if status == "approved":
-#        print(f"Usuário {user_id} pagou com sucesso")
+    
+    service_create_sale_by_webhook(data["response"]["external_reference"])
 
 
 

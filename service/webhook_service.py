@@ -1,4 +1,4 @@
-from repositories.sales_repo import create_new_sale, get_sales_status_waiting_payment,put_sale  
+from repositories.sales_repo import get_sale_by_sale_id , get_sales_status_waiting_payment,put_sale  
 from models.webhook import Merchant, CustomerInfos, ShippingAdress
 from repositories.user_repo import get_all_users
 from service.analitycs_service import service_add_new_estatistic_on_analitycs, service_post_a_user_online
@@ -6,7 +6,18 @@ from service.sales_service import service_update_sale
 from service.product_service import service_update_sales_of_product
 
 
-def service_create_sale_by_webhook(payload:dict):
+
+def service_create_sale_by_webhook(sale_id:str):
+
+
+    service_update_sale("admin", sale_id,None, None,None, "pagamento confirmado", None,None,None, None, None, None, None)  
+
+    return
+
+
+
+
+def service_crea_sale_by_webhook(payload:dict):
 
     
     ShippingAdress = payload.resource["shipping_address"]["data"]
@@ -42,3 +53,16 @@ def service_create_sale_by_webhook(payload:dict):
                 break
 
     return
+
+
+
+
+
+
+
+
+
+
+
+
+
