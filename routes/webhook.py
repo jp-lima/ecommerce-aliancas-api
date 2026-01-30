@@ -4,7 +4,7 @@ from service.webhook_service import service_create_sale_by_webhook
 import mercadopago
 
 
-sdk = mercadopago.SDK("APP_USR-7717360816237127-012616-ed804bab6fc3b9fa2a1d0c3db2428df0-3161036082")
+sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
 router = APIRouter(
 prefix="/webhook",

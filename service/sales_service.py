@@ -8,7 +8,7 @@ import mercadopago
 import json
 
 
-sdk = mercadopago.SDK("APP_USR-7717360816237127-012616-ed804bab6fc3b9fa2a1d0c3db2428df0-3161036082")
+sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
 
 def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str, code:str, sizes:str,state:str,city:str, neighboor:str, street:str, complement:str ):
