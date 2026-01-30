@@ -1,3 +1,4 @@
+import re
 from repositories.sales_repo import * 
 from service.product_service import get_one_product 
 from service.analitycs_service import service_post_a_user_online
@@ -100,16 +101,18 @@ def service_get_carts_by_id(authorization:str):
 def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user_cep:str, sizes:str, state:str, city:str, neighboor:str, street:str, complement:str):
  
     value_total = 0
-
-    for product_id in products_id_list:
-        product = get_one_product(product_id)
+    for index,product_id in enumerate(products_id_list):
         
-        value_total += product[0]["price"]
+        product = get_one_product(product_id)
+        amount = amounts[index]
+        price = product[0]["price"] 
+        value_final = amount * price 
+        
+        value_total += value_final 
 
-    print(value_total)
+
     json_data = json.dumps({"products_id":products_id_list, "products_amount":amounts})
-
-
+    
     new_id = uuid.uuid4() 
     create_new_sale(str(new_id), user_id, json_data,value_total, user_cep, "aguardando pagamento",  sizes, state, city, neighboor, street, complement  )
 
@@ -123,7 +126,7 @@ def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user
 
                 }
                 ],
-            "external_reference":new_id,
+            "external_reference":str(new_id),
             "back_urls":{
                      "success": "https://seusite.com/sucesso",
             "failure": "https://seusite.com/erro",
