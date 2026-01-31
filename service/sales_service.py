@@ -1,4 +1,5 @@
-import re
+from service.freights_service import service_calculate_freight
+from repositories import freights_repo
 from repositories.sales_repo import * 
 from service.product_service import get_one_product 
 from service.analitycs_service import service_post_a_user_online
@@ -99,8 +100,16 @@ def service_get_carts_by_id(authorization:str):
 
 
 def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user_cep:str, sizes:str, state:str, city:str, neighboor:str, street:str, complement:str):
- 
     value_total = 0
+    
+    freight = service_calculate_freight(state, city) 
+
+    print("frete",freight)
+
+    value_total += freight
+
+    print("Valor com frete", value_total)
+
     for index,product_id in enumerate(products_id_list):
         
         product = get_one_product(product_id)
@@ -108,8 +117,9 @@ def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user
         price = product[0]["price"] 
         value_final = amount * price 
         
+        print(value_final)
         value_total += value_final 
-
+    
 
     json_data = json.dumps({"products_id":products_id_list, "products_amount":amounts})
     

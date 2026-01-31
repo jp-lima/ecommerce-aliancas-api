@@ -1,3 +1,4 @@
+from models import freight_models
 from repositories.freights_repo import *
 from utils.access_token import decode_access_token
 from fastapi.responses import JSONResponse
@@ -47,6 +48,26 @@ def service_delete_row_freight(authorization:str, uuid:str):
     del_row_freight(uuid)
 
     return JSONResponse(status_code=200, content="frete apagado")
+
+
+def service_calculate_freight(state:str, city:str):
+    
+    freight_value = 0 
+    freight = get_row_of_freight_by_city(city, state)
+
+    if len(freight) > 0:
+        freight_value = freight[0]["value"]   
+
+    else:
+        freight = get_row_of_freight_by_state(state)
+     
+        if len(freight) > 0:
+            freight_value = freight[0]["value"]   
+
+   
+    return  freight_value
+
+
 
 
 

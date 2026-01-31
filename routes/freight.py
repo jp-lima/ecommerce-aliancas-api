@@ -33,7 +33,11 @@ async def dele_row_freight(freight_id:str,authorization: str = Header(None) ):
     response = service_delete_row_freight(authorization, freight_id)
     return response
 
+@router.post("/calculate")
+def calculate_freight(data:dict):
 
-
+    response =  service_calculate_freight( data["state"], data["city"])
+    
+    return response
 
 
