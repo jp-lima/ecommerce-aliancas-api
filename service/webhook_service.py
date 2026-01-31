@@ -4,13 +4,21 @@ from repositories.user_repo import get_all_users
 from service.analitycs_service import service_add_new_estatistic_on_analitycs, service_post_a_user_online
 from service.sales_service import service_update_sale 
 from service.product_service import service_update_sales_of_product
+import mercadopago
 
+sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
+def service_update_sale_by_webhook(data:dict):
+    
+    payment_id = data.get("data", {}).get("id")
 
-def service_create_sale_by_webhook(sale_id:str):
+    payment = sdk.payment().get(payment_id)
 
+    print(payment["response"]["external_reference"]) 
 
-    service_update_sale("admin", sale_id,None, None,None, "pagamento confirmado", None,None,None, None, None, None, None)  
+    if payment["response"]["status"] == "approved":
+        print("aprovado")
+        service_update_sale("admin", payment["response"]["external_reference"],None, None,None, "pagamento confirmado", None,None,None, None, None, None, None)  
 
     return
 

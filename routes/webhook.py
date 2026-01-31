@@ -1,6 +1,7 @@
+from os import stat
 from models.webhook import * 
 from fastapi import APIRouter,Form,File, UploadFile,Response, HTTPException
-from service.webhook_service import service_create_sale_by_webhook
+from service.webhook_service import service_update_sale_by_webhook
 import mercadopago
 from service.sales_service import *
 
@@ -21,11 +22,8 @@ async def receive_post(payload: WebhookYampi):
     
 @router.post("/mercadopago")
 def webhook(data: dict):
-    payment_id = data.get("data", {}).get("id")
-
-    payment = sdk.payment().get(payment_id)
-    print(payment)
-    service_create_sale_by_webhook(payment["response"]["external_reference"])
+   
+    service_update_sale_by_webhook(data)
 
 
 
