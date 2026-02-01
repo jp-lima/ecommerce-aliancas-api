@@ -1,12 +1,9 @@
-
 from fastapi import APIRouter,Header,Form,File, UploadFile,Response
 from repositories.sales_repo import get_all_sales, get_sales_by_id, get_sale_by_sale_id, get_all_carts
 from service.sales_service import * 
 from models.sales import * 
 
-
 router = APIRouter(
-
 prefix ="/sales",
 tags=["sales"]
         )
@@ -19,9 +16,20 @@ def checkout(request:Request_new_sale):
     return response 
 
 @router.post("/carts")
-def get_carts_by_user_id(requisition:RequestCartById):
+def create_new_cart(request:Request_new_cart ):
+
+
+
+    response = service_create_cart(request.user_id, request.amounts,  request.products_id, request.sizes )
+
+    return response
+
+
+@router.get("/carts/{user_id}")
+def get_carts_by_user_id(user_id:str = None):
     
-    response = service_get_carts_by_id(requisition.authorization)
+    response = service_get_carts_by_id(user_id)
+    
 
     return response
 

@@ -85,9 +85,38 @@ def service_update_sale(authorization:str,sale_id:str, amount:int,value:float,us
         return "não autorizado"
 
 
+def service_create_cart(user_id:str, amounts:list,  products_id:list, sizes:list  ):
+
+    carts = get_carts_by_id(user_id)
+
+    if len(carts) == 0:
+
+        json_data = json.dumps({"products_id":products_id, "products_amount":amounts})
+        
+        new_id = uuid.uuid4() 
+
+        create_new_cart(str(new_id), user_id,json_data)
+
+    else: 
+        
+        list_products_id = json.loads(carts[0]["products_id"])["products_id"]
+        list_amounts =   json.loads(carts[0]["products_id"])["products_amount"]
 
 
-    return "venda atualizada com sucesso"
+
+        list_products_id += products_id
+        list_amounts += amounts
+        print("amounts", list_amounts)
+
+        json_data = json.dumps({"products_id":list_products_id, "products_amount":list_amounts})
+       
+        put_an_cart(json_data, user_id ) 
+
+
+    return carts 
+
+
+
 
 def service_get_carts_by_id(authorization:str):
 

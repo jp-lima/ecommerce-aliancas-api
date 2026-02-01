@@ -14,6 +14,13 @@ class Request_new_sale(BaseModel):
     street:str
     complement:str
 
+class Request_new_cart(BaseModel):
+    products_id:list
+    amounts:list
+    user_id:str
+    sizes: list | None = None
+
+
 class RequestCartById(BaseModel):
     authorization:str
 

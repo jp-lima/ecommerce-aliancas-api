@@ -27,8 +27,6 @@ def get_sales_status_waiting_payment():
     return sales
 
 
-
-
 def delete_sale_by_id(sale_id:str):
     conn = get_conn()
 
@@ -93,9 +91,7 @@ def get_sales_by_id(uuid:str):
     return sales
 
 def create_new_sale(uuid:str,user_id:str,products_id:str, value:float, user_cep:str, status:str,  sizes:str,state:str, city:str, neighboor:str,street:str, complement:str):
-
     conn = get_conn()
-
     cursor = conn.cursor(dictionary = True)
 
     cursor.execute(    '''
@@ -111,6 +107,46 @@ def create_new_sale(uuid:str,user_id:str,products_id:str, value:float, user_cep:
 
     cursor.close()
     conn.close()
+
+def create_new_cart(uuid:str, user_id:str, products_id:dict):
+    conn = get_conn()
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute(    '''
+    INSERT INTO sales 
+        (id,user_id, products_id, status )
+    VALUES 
+        (%s, %s, %s, %s)
+    ''',
+    (uuid,user_id, products_id, 'cart' )
+ )
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+def put_an_cart(products_id:dict, uuid:str):
+    conn = get_conn()
+
+    cursor = conn.cursor(dictionary = True)
+
+    cursor.execute( '''
+    UPDATE sales SET 
+        products_id = %s
+    WHERE user_id = %s 
+    ''',
+    (products_id, uuid,)
+ )
+
+    conn.commit()
+
+    cursor.close() 
+    conn.close()
+
+
+
+
 
 def put_json_sale( json:dict, uuid:str):
 
