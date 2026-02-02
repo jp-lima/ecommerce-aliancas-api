@@ -118,11 +118,9 @@ def service_create_cart(user_id:str, amounts:list,  products_id:list, sizes:list
 
 
 
-def service_get_carts_by_id(authorization:str):
+def service_get_carts_by_id(user_id:str):
 
-    decoded_token = decode_access_token(authorization)
-    
-    carts = get_carts_by_id(decoded_token["sub"])   
+    carts = get_carts_by_id(user_id)   
 
     return carts      
 
