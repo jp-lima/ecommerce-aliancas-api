@@ -7,11 +7,13 @@ class Request_new_sale(BaseModel):
     sizes:list
     gravations:list
     user_id:str
+    cpf:str
     user_cep:str
     state:str
     city:str
     neighboor:str
     street:str
+    number:str
     complement:str
 
 class Request_new_cart(BaseModel):
