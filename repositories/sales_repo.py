@@ -90,17 +90,17 @@ def get_sales_by_id(uuid:str):
 
     return sales
 
-def create_new_sale(uuid:str,user_id:str,products_id:str, value:float, user_cep:str, status:str,  sizes:str,state:str, city:str, neighboor:str,street:str, complement:str):
+def create_new_sale(uuid:str,user_id:str,products_id:str, value:float, user_cep:str, status:str,state:str, city:str, neighboor:str,street:str, complement:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary = True)
 
     cursor.execute(    '''
     INSERT INTO sales 
-        (id,user_id, products_id, value, user_cep,state, city, neighboor,street, complement, status, sizes )
+        (id,user_id, products_id, value, user_cep,state, city, neighboor,street, complement, status )
     VALUES 
-        (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s )
+        (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s)
     ''',
-    (uuid,user_id, products_id, value, user_cep,state, city, neighboor,street, complement,status, sizes,)
+    (uuid,user_id, products_id, value, user_cep,state, city, neighboor,street, complement,status,)
  )
 
     conn.commit()

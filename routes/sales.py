@@ -11,7 +11,7 @@ tags=["sales"]
 @router.post("/")
 def checkout(request:Request_new_sale):
     
-    response = service_take_checkout(request.user_id, request.products_id, request.amounts, request.user_cep, request.sizes, request.state,request.city, request.neighboor, request.street, request.complement )     
+    response = service_take_checkout(request.user_id, request.products_id, request.amounts, request.gravations, request.user_cep, request.sizes, request.state,request.city, request.neighboor, request.street, request.complement )     
 
     return response 
 

@@ -1,9 +1,7 @@
 from fastapi import APIRouter,Form,File, UploadFile,Response
 from models.model_product import Request_create_product, Request_update_product,Request_delete_product
-
 from repositories.products_repo import get_all_products, get_image_by_id, get_one_product
 from service.product_service import *
-
 
 router = APIRouter(
 prefix="/products",
@@ -17,11 +15,6 @@ def receive_product():
     
     return response_products
 
-@router.get("/teste")
-def teste():
-    service_update_sales_of_product(1,"2969ac0f-bc0d-4252-99d4-9dd6a258bb8e")
-
-    return
 
 @router.get("/{id}/image/{index}")
 def receive_product_image(id:str, index:int):

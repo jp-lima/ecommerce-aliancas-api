@@ -11,17 +11,64 @@ import json
 
 sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
+def service_take_checkout(user_id:str, products_id_list:list, amounts:list,gravations:list, user_cep:str, sizes:list, state:str, city:str, neighboor:str, street:str, complement:str):
+    value_total = 0
+    
+    freight = service_calculate_freight(state, city) 
 
-def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str, code:str, sizes:str,state:str,city:str, neighboor:str, street:str, complement:str ):
 
-    decoded_token = decode_access_token(authorization)
+    value_total += freight
 
+    for index,product_id in enumerate(products_id_list):
+        
+        product = get_one_product(product_id)
+        amount = amounts[index]
+        price = product[0]["price"] 
+        value_final = amount * price 
+        value_total += value_final 
+    
+
+    json_data = json.dumps({"products_id":products_id_list, "products_amount":amounts, "sizes":sizes, "gravations":gravations})
+    
     new_id = uuid.uuid4() 
+    create_new_sale(str(new_id), user_id, json_data,value_total, user_cep, "aguardando pagamento",state, city, neighboor, street, complement  )
 
-    create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status, code,sizes,state,city,neighboor,street,complement)
+    preference_data = {
+
+            "items":[
+                {
+                    "items":"Alianças",
+                    "quantity":1,
+                    "unit_price":value_total
+
+                }
+                ],
+            "external_reference":str(new_id),
+            "back_urls":{
+                     "success": "https://seusite.com/sucesso",
+            "failure": "https://seusite.com/erro",
+            "pending": "https://seusite.com/pendente"
+                    },
+                "auto_return":"approved"
+
+            }
+
+    print(preference_data) 
+    preference = sdk.preference().create(preference_data)
+
+    return preference["response"]["init_point"] 
+
+
+#def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str, code:str, sizes:str,state:str,city:str, neighboor:str, street:str, complement:str ):
+
+#    decoded_token = decode_access_token(authorization)
+
+#    new_id = uuid.uuid4() 
+
+#    create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status, code,sizes,state,city,neighboor,street,complement)
    
 
-    return "criado com sucesso"
+#    return "criado com sucesso"
 
 def service_del_cart_by_id(authorization:str, cart_id:str):
 
@@ -123,54 +170,6 @@ def service_get_carts_by_id(user_id:str):
     carts = get_carts_by_id(user_id)   
 
     return carts      
-
-
-def service_take_checkout(user_id:str, products_id_list:list, amounts:list, user_cep:str, sizes:str, state:str, city:str, neighboor:str, street:str, complement:str):
-    value_total = 0
-    
-    freight = service_calculate_freight(state, city) 
-
-    value_total += freight
-
-    for index,product_id in enumerate(products_id_list):
-        
-        product = get_one_product(product_id)
-        amount = amounts[index]
-        price = product[0]["price"] 
-        value_final = amount * price 
-        value_total += value_final 
-    
-
-    json_data = json.dumps({"products_id":products_id_list, "products_amount":amounts})
-    
-    new_id = uuid.uuid4() 
-    create_new_sale(str(new_id), user_id, json_data,value_total, user_cep, "aguardando pagamento",  sizes, state, city, neighboor, street, complement  )
-
-    preference_data = {
-
-            "items":[
-                {
-                    "items":"Alianças",
-                    "quantity":1,
-                    "unit_price":value_total
-
-                }
-                ],
-            "external_reference":str(new_id),
-            "back_urls":{
-                     "success": "https://seusite.com/sucesso",
-            "failure": "https://seusite.com/erro",
-            "pending": "https://seusite.com/pendente"
-                    },
-                "auto_return":"approved"
-
-            }
-
-    print(preference_data) 
-    preference = sdk.preference().create(preference_data)
-
-    return preference["response"]["init_point"] 
-
 
 
 

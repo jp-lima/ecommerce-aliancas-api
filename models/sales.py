@@ -4,10 +4,10 @@ from pydantic import BaseModel
 class Request_new_sale(BaseModel):
     products_id:list
     amounts:list
+    sizes:list
+    gravations:list
     user_id:str
     user_cep:str
-    sizes: str
-    status: str | None = None
     state:str
     city:str
     neighboor:str
