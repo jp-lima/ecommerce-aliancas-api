@@ -11,7 +11,7 @@ import json
 
 sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
-def service_take_checkout(user_id:str, products_id_list:list, amounts:list,gravations:list, user_cep:str, sizes:list, state:str, city:str, neighboor:str, street:str, complement:str, number:str, cpf:str):
+def service_take_checkout(user_id:str, products_id_list:list, amounts:list,gravations:list, user_cep:str, sizes:list, state:str, city:str, neighboor:str, street:str, complement:str, number:str, cpf:str, stone:str):
     value_total = 0
     
     freight = service_calculate_freight(state, city) 
@@ -28,7 +28,8 @@ def service_take_checkout(user_id:str, products_id_list:list, amounts:list,grava
         value_total += value_final 
     
 
-    json_data = json.dumps({"products_id":products_id_list, "products_amount":amounts, "sizes":sizes, "gravations":gravations})
+    json_data = json.dumps({"products_id":products_id_list, "products_amount":amounts, 
+                            "sizes":sizes, "gravations":gravations, "stone":stone})
     
     new_id = uuid.uuid4() 
     create_new_sale(str(new_id), user_id, json_data,value_total, user_cep, "aguardando pagamento",state, city, neighboor, street, complement, number, cpf  )

@@ -38,9 +38,7 @@ def delete_sale_by_id(sale_id:str):
     ''',
     (sale_id,)
  )
-
     conn.commit()
-
     cursor.close()
     conn.close()
 
@@ -76,8 +74,6 @@ def get_sale_by_sale_id(uuid:str):
 
     return sales 
 
- 
-
 def get_sales_by_id(uuid:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary=True)
@@ -90,17 +86,17 @@ def get_sales_by_id(uuid:str):
 
     return sales
 
-def create_new_sale(uuid:str,user_id:str,products_id:str, value:float, user_cep:str, status:str,state:str, city:str, neighboor:str,street:str, complement:str, number:str, cpf:str ):
+def create_new_sale(uuid:str,user_id:str, order_infos:str, value:float, user_cep:str, status:str,state:str, city:str, neighboor:str,street:str, complement:str, number:str, cpf:str ):
     conn = get_conn()
     cursor = conn.cursor(dictionary = True)
 
     cursor.execute(    '''
     INSERT INTO sales 
-        (id,user_id, products_id, value, user_cep,state, city, neighboor,street, complement, status, number, cpf )
+        (id,user_id, order_infos, value, user_cep,state, city, neighboor,street, complement, status, number, cpf )
     VALUES 
         (%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s)
     ''',
-    (uuid,user_id, products_id, value, user_cep,state, city, neighboor,street, complement,status, number, cpf,)
+    (uuid,user_id, order_infos, value, user_cep,state, city, neighboor,street, complement,status, number, cpf,)
  )
 
     conn.commit()

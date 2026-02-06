@@ -15,6 +15,7 @@ class Request_new_sale(BaseModel):
     street:str
     number:str
     complement:str
+    stone:str
 
 class Request_new_cart(BaseModel):
     products_id:list
