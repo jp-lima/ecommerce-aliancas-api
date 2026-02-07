@@ -147,14 +147,13 @@ def service_create_cart(user_id:str, amounts:list,  products_id:list, sizes:list
 
     else: 
         
-        list_products_id = json.loads(carts[0]["products_id"])["products_id"]
-        list_amounts =   json.loads(carts[0]["products_id"])["products_amount"]
+        list_products_id = json.loads(carts[0]["order_infos"])["products_id"]
+        list_amounts =   json.loads(carts[0]["order_infos"])["products_amount"]
 
 
 
         list_products_id += products_id
         list_amounts += amounts
-        print("amounts", list_amounts)
 
         json_data = json.dumps({"products_id":list_products_id, "products_amount":list_amounts})
        

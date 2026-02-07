@@ -1,4 +1,4 @@
-from typing import reveal_type
+from typing import OrderedDict, reveal_type
 from db import get_conn
 from routes import products
 
@@ -104,17 +104,17 @@ def create_new_sale(uuid:str,user_id:str, order_infos:str, value:float, user_cep
     cursor.close()
     conn.close()
 
-def create_new_cart(uuid:str, user_id:str, products_id:dict):
+def create_new_cart(uuid:str, user_id:str, order_infos:dict):
     conn = get_conn()
     cursor = conn.cursor(dictionary = True)
 
     cursor.execute(    '''
     INSERT INTO sales 
-        (id,user_id, products_id, status )
+        (id,user_id, order_infos, status )
     VALUES 
         (%s, %s, %s, %s)
     ''',
-    (uuid,user_id, products_id, 'cart' )
+    (uuid,user_id, order_infos, 'cart' )
  )
 
     conn.commit()
@@ -122,17 +122,17 @@ def create_new_cart(uuid:str, user_id:str, products_id:dict):
     cursor.close()
     conn.close()
 
-def put_an_cart(products_id:dict, uuid:str):
+def put_an_cart(order_infos:dict, uuid:str):
     conn = get_conn()
 
     cursor = conn.cursor(dictionary = True)
 
     cursor.execute( '''
     UPDATE sales SET 
-        products_id = %s
+       order_infos = %s
     WHERE user_id = %s 
     ''',
-    (products_id, uuid,)
+    (order_infos, uuid,)
  )
 
     conn.commit()
