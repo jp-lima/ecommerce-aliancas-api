@@ -11,11 +11,11 @@ import json
 
 sdk = mercadopago.SDK("APP_USR-5708610925833516-012616-c46ac0af8146c4691ebc95ccf0d74968-443898421")
 
-def service_take_checkout(user_id:str, products_id_list:list, amounts:list,gravations:list, user_cep:str, sizes:list, state:str, city:str, neighboor:str, street:str, complement:str, number:str, cpf:str, stone:str):
+def service_take_checkout(user_id:str, products_id_list:list, amounts:list,gravations:list, user_cep:str, sizes:list, state:str, city:str, neighboor:str, street:str, complement:str, number:str, cpf:str, stone:list):
+    
     value_total = 0
     
     freight = service_calculate_freight(state, city) 
-
 
     value_total += freight
 
@@ -59,17 +59,6 @@ def service_take_checkout(user_id:str, products_id_list:list, amounts:list,grava
 
     return preference["response"]["init_point"] 
 
-
-#def service_create_sale(product_id:str,amount:int,value:float, user_cep:str,status:str,authorization:str, code:str, sizes:str,state:str,city:str, neighboor:str, street:str, complement:str ):
-
-#    decoded_token = decode_access_token(authorization)
-
-#    new_id = uuid.uuid4() 
-
-#    create_new_sale(str(new_id),decoded_token["sub"], product_id, amount,value, user_cep, status, code,sizes,state,city,neighboor,street,complement)
-   
-
-#    return "criado com sucesso"
 
 def service_del_cart_by_id(authorization:str, cart_id:str):
 
