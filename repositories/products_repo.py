@@ -36,7 +36,6 @@ def get_image_by_id(uuid:str):
     conn.close()
     
     i = list(images[0].values()) 
-    print(i[0], "AQUI")
 
     return i 
 

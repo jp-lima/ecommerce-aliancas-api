@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Header
-from models.freight_models import Request_Create_Freight
+from models.freight_models import * 
 from service.freights_service import *
 from service.freights_service import service_create_freight
 from models.freight_models import *
@@ -34,9 +34,9 @@ async def dele_row_freight(freight_id:str,authorization: str = Header(None) ):
     return response
 
 @router.post("/calculate")
-def calculate_freight(data:dict):
+def calculate_freight(request:Request_Get_Freight):
 
-    response =  service_calculate_freight( data["state"], data["city"])
+    response =  service_calculate_freight( request.state, request.city)
     
     return response
 

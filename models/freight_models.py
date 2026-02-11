@@ -7,6 +7,9 @@ class Request_Create_Freight(BaseModel):
     city:str | None = None 
     value:float
 
+class Request_Get_Freight(BaseModel):
+    state:str
+    city:str
 
 
 
