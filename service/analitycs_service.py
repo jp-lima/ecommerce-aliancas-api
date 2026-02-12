@@ -5,23 +5,26 @@ from routes import analitycs
 from datetime import time,datetime, timedelta
 import locale
 from datetime import datetime
-
+from babel.dates import format_datetime   
 
 
 def service_add_new_estatistic_on_analitycs(dict:dict):
-    locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
-    mes = datetime.now().strftime('%B')
-    ano = datetime.now().year
-    day = datetime.now().strftime('%d') 
-    hora_atual = datetime.now().strftime("%H")
+
+    agora = datetime.now()
+    mes = format_datetime(agora, "MMMM", locale="pt_BR")
+    ano = agora.year
+    day = format_datetime(agora, "dd", locale="pt_BR")
+    hora_atual = format_datetime(agora, "HH", locale="pt_BR")
+
+    print(day) 
+    print(hora_atual)
+
 
     analitycs = get_rows_of_analitycs()
 
-    print(hora_atual)
 
     data = {"users_online":analitycs[-1]["users_online"],"revenue":analitycs[-1]["revenue"], "new_users": analitycs[-1]["new_users"], "orders_count":analitycs[-1]["orders_count"]}
 
-    print(day)
 
     if analitycs[-1]["month"] == mes and analitycs[-1]["day"] == day and analitycs[-1]["time"] == hora_atual:
 
