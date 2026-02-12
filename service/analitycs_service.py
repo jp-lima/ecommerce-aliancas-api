@@ -21,7 +21,7 @@ def service_add_new_estatistic_on_analitycs(dict:dict):
 
     data = {"users_online":analitycs[-1]["users_online"],"revenue":analitycs[-1]["revenue"], "new_users": analitycs[-1]["new_users"], "orders_count":analitycs[-1]["orders_count"]}
 
-    print(day )
+    print(day)
 
     if analitycs[-1]["month"] == mes and analitycs[-1]["day"] == day and analitycs[-1]["time"] == hora_atual:
 
@@ -30,6 +30,7 @@ def service_add_new_estatistic_on_analitycs(dict:dict):
                 data["new_users"] += 1
             case "revenue":
                 data["revenue"] += dict["data"] 
+                data["orders_count"] += 1 
             case "users_online":
                 data["users_online"] += 1
             case "orders_count":

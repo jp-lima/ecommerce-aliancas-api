@@ -1,4 +1,3 @@
-from os import stat
 from models.webhook import * 
 from fastapi import APIRouter,Form,File, UploadFile,Response, HTTPException
 from service.webhook_service import service_update_sale_by_webhook
@@ -24,8 +23,5 @@ async def receive_post(payload: WebhookYampi):
 def webhook(data: dict):
    
     service_update_sale_by_webhook(data)
-
-
-
 
 

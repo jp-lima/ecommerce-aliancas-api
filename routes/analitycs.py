@@ -31,7 +31,7 @@ def send_analitycs_of_users_activity():
 
 
 @router.post("/user-loged")
-def user_be_loged(request:getAuthorization):
+def user_be_loged():
 
 
 #    teste = get_all_rows_from_analitycs_users()
@@ -42,7 +42,7 @@ def user_be_loged(request:getAuthorization):
 @router.get("/teste")
 def test():
     
-    service_add_new_estatistic_on_analitycs({"estatistic":"users_online", "data":500.8})
+    service_add_new_estatistic_on_analitycs({"estatistic":"new_user", "data":500.8})
 
 
 
