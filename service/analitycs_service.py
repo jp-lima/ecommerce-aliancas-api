@@ -6,11 +6,11 @@ from datetime import time,datetime, timedelta
 import locale
 from datetime import datetime
 from babel.dates import format_datetime   
-
+from zoneinfo import ZoneInfo
 
 def service_add_new_estatistic_on_analitycs(dict:dict):
 
-    agora = datetime.now()
+    agora = datetime.now(ZoneInfo("America/Sao_Paulo"))
     mes = format_datetime(agora, "MMMM", locale="pt_BR")
     ano = agora.year
     day = format_datetime(agora, "dd", locale="pt_BR")
