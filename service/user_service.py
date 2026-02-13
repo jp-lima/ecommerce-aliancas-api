@@ -7,7 +7,7 @@ from utils.access_token import create_access_token, decode_access_token
 from service.analitycs_service import service_add_new_estatistic_on_analitycs, service_post_a_user_online 
 import uuid
 from datetime import datetime
-
+from zoneinfo import ZoneInfo
 
 
 def verify_password(email:str, password:str):
@@ -44,7 +44,6 @@ def service_update_users_infos(authorization:str, user_id:str, password:str, use
     
     decoded_token = decode_access_token(authorization)
     if decoded_token["role"] == "admin" or decoded_token["sub"] == user_id:
-        print("autorizado")
 
         infos_user = {"user_id":user_id, "name":username, "email":email, "password_hash":hashed_password, "phone":phone }
 
@@ -85,7 +84,7 @@ def service_create_user(email:str, password:str, name:str, phone:str):
     hashed_password = create_hash(password)
     new_uuid = uuid.uuid4()
 
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("America/Sao_Paulo"))
 
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
 

@@ -4,11 +4,9 @@ import re
 from typing import DefaultDict
 import uuid
 from repositories.products_repo import * 
-
-
 from utils.access_token import decode_access_token 
 from datetime import datetime
-
+from zoneinfo import ZoneInfo
 
 
 def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:str,image3_bytes:str,image4_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str):
@@ -16,7 +14,7 @@ def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:st
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
 
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("America/Sao_Paulo"))
 
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
 
