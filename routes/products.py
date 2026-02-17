@@ -11,11 +11,11 @@ tags=["products"]
 @router.post("/teste")
 async def teste( image: UploadFile = File(...)):
 
-   # image_bytes = await image.read()
-   # Response = await upload_image_to_supabase(image,image_bytes, image.filename)
+    image_bytes = await image.read()
+    Response = await upload_image_to_supabase(image_bytes,image, image.filename)
 
     
-    return "Response"     
+    return Response     
 
 
 @router.get("/")

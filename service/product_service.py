@@ -14,11 +14,11 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-async def upload_image_to_supabase(file):
+async def upload_image_to_supabase(file_content,file, file_name):
 
-    file_content = await file.read()
+#    file_content = await file.read()
 #    print(file_content, "file_content")
-    file_name = file.filename
+#    file_name = file.filename
 
     response = supabase.storage.from_("products").upload(
         file_name,
@@ -35,7 +35,7 @@ async def upload_image_to_supabase(file):
 
 async def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:str,image3_bytes:str,image4_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image:str ):
     
-    image_url = await upload_image_to_supabase(image)
+    image_url = await upload_image_to_supabase(image_bytes, image, image.filename)
 
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
