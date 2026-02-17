@@ -7,10 +7,36 @@ from repositories.products_repo import *
 from utils.access_token import decode_access_token 
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from supabase import create_client
+
+SUPABASE_URL = "https://qqxlznjxpekbpqblakju.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxeGx6bmp4cGVrYnBxYmxha2p1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTI1NDA3NiwiZXhwIjoyMDgwODMwMDc2fQ.WxjRhGDUNKblTFvmEO5nJn2ODrvA2o_NE29cYaNCISU"
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+async def upload_image_to_supabase(file):
+
+    file_content = await file.read()
+#    print(file_content, "file_content")
+    file_name = file.filename
+
+    response = supabase.storage.from_("products").upload(
+        file_name,
+        file_content,
+        {"content-type": file.content_type}
+    )
+
+    public_url = supabase.storage.from_("products").get_public_url(file_name)
+
+    return public_url
 
 
-def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:str,image3_bytes:str,image4_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str):
+
+
+async def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:str,image3_bytes:str,image4_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image:str ):
     
+    image_url = await upload_image_to_supabase(image)
+
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
 
@@ -20,7 +46,7 @@ def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:st
 
     if decoded_token["role"] == "admin":
            
-        create_product(str(new_uuid),name, price, image_bytes, image_2bytes, image3_bytes, image4_bytes, type, stone, material,checkout_link,formato_iso )
+        create_product(str(new_uuid),name, price, image_url, image_bytes, image_2bytes, image3_bytes, image4_bytes, type, stone, material,checkout_link,formato_iso )
 
         return JSONResponse(status_code=201,content="produto criado")
 

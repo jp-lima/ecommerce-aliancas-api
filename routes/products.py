@@ -8,6 +8,16 @@ prefix="/products",
 tags=["products"]
         )
 
+@router.post("/teste")
+async def teste( image: UploadFile = File(...)):
+
+    image_bytes = await image.read()
+    Response = await upload_image_to_supabase(image,image_bytes, image.filename)
+
+    
+    return Response 
+
+
 @router.get("/")
 def receive_product():
 
@@ -53,7 +63,7 @@ async def create_product(
     image3_bytes = await image3.read() if image3 else "" 
     image4_bytes = await image4.read() if image4 else "" 
     
-    response = service_create_product(price,name,image_bytes,image2_bytes, image3_bytes, image4_bytes,type,stone,material,checkout_link,authorization)
+    response = service_create_product(price,name,image_bytes,image2_bytes, image3_bytes, image4_bytes,type,stone,material,checkout_link,authorization, image)
 
     return response
 
