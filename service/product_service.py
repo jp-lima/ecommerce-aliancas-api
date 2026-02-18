@@ -50,7 +50,7 @@ async def service_create_product(price:float, name:str,image_bytes:str,image2_by
 
     if decoded_token["role"] == "admin":
            
-        create_product(str(new_uuid),name, price, image_url, image_bytes, image2_url, image3_url, type, stone, material,checkout_link,formato_iso )
+        create_product(str(new_uuid),name, price, image_url, image2_url, image3_url, type, stone, material,checkout_link,formato_iso )
 
         return JSONResponse(status_code=201,content="produto criado")
 
