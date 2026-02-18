@@ -31,11 +31,15 @@ async def upload_image_to_supabase(file_content,file, file_name):
     return public_url
 
 
-
-
-async def service_create_product(price:float, name:str,image_bytes:str,image_2bytes:str,image3_bytes:str,image4_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image:str ):
+async def service_create_product(price:float, name:str,image_bytes:str,image2_bytes:str,image3_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image, image2, image3 ):
     
     image_url = await upload_image_to_supabase(image_bytes, image, image.filename)
+
+    image2_url = await upload_image_to_supabase(image2_bytes, image2, image2.filename)
+
+    image3_url = await upload_image_to_supabase(image3_bytes, image3, image3.filename)
+
+
 
     decoded_token = decode_access_token(authorization)
     new_uuid = uuid.uuid4()
@@ -46,7 +50,7 @@ async def service_create_product(price:float, name:str,image_bytes:str,image_2by
 
     if decoded_token["role"] == "admin":
            
-        create_product(str(new_uuid),name, price, image_url, image_bytes, image_2bytes, image3_bytes, image4_bytes, type, stone, material,checkout_link,formato_iso )
+        create_product(str(new_uuid),name, price, image_url, image_bytes, image2_url, image3_url, type, stone, material,checkout_link,formato_iso )
 
         return JSONResponse(status_code=201,content="produto criado")
 
