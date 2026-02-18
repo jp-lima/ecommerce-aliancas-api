@@ -35,9 +35,9 @@ async def service_create_product(price:float, name:str,image_bytes:str,image2_by
     
     image_url = await upload_image_to_supabase(image_bytes, image, image.filename)
 
-    image2_url = await upload_image_to_supabase(image2_bytes, image2, image2.filename)
+    image2_url = await upload_image_to_supabase(image2_bytes, image2, image2.filename) if image2 else ""
 
-    image3_url = await upload_image_to_supabase(image3_bytes, image3, image3.filename)
+    image3_url = await upload_image_to_supabase(image3_bytes, image3, image3.filename) if image3 else ""
 
 
 
