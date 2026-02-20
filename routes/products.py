@@ -8,14 +8,12 @@ prefix="/products",
 tags=["products"]
         )
 
-@router.post("/teste")
-async def teste( image: UploadFile = File(...)):
+@router.get("/teste")
+async def teste():
 
-    image_bytes = await image.read()
-    Response = await upload_image_to_supabase(image_bytes,image, image.filename)
+    response =  await delete_image_from_supabase("https://qqxlznjxpekbpqblakju.supabase.co/storage/v1/object/public/products/PA27.png")
 
-    
-    return Response     
+    return
 
 
 @router.get("/")

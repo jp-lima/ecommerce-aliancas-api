@@ -30,6 +30,14 @@ async def upload_image_to_supabase(file_content,file, file_name):
 
     return public_url
 
+async def delete_image_from_supabase(image_url:str):
+
+    image_name = image_url.split("/")
+       
+    response = supabase.storage.from_("products").remove([image_name[-1]])
+
+    return
+
 
 async def service_create_product(price:float, name:str,image_bytes:str,image2_bytes:str,image3_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image, image2, image3 ):
     
@@ -73,7 +81,7 @@ def service_get_image_for_product(uuid:str, index:int):
 async def service_update_product(price:float, name:str, image,image2,image3,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
 
     infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
-    images = {"image_url":"", "image2_url":image2,"image3_url":image3}
+    images = {"image_url":image, "image2_url":image2,"image3_url":image3}
     images_url = {"image_url":"", "image2_url":"", "image3_url":""}
 
     now = datetime.now()
@@ -98,20 +106,12 @@ async def service_update_product(price:float, name:str, image,image2,image3,stat
         for key, value in images.items():
             if value:
                 if product[0][key]:
-                    print(key)
-                    # deletar foto antiga do storage 
-                    # adicionar foto nova no storage
-                    #colocar url da foto nova no images_url
-                else:
-                    print("jj")
-                    image_content = await value.read();
-                    image_url = await upload_image_to_supabase(image_content, value, value.filename)
-                    images_url[key] = image_url
-
-                    #adicionar nova foto no storage
-                    #colocar url da foto nova no images_url
-
-       
+                    response_delete = await delete_image_from_supabase(product[0][key])
+                      
+                image_content = await value.read();
+                print("foto enviada", image_content)
+                image_url = await upload_image_to_supabase(image_content, value, value.filename)
+                images_url[key] = image_url
         
 
         for key, value in infos_produto.items():
