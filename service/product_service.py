@@ -78,10 +78,11 @@ def service_get_image_for_product(uuid:str, index:int):
 
 
 
-async def service_update_product(price:float, name:str, image,image2,image3,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
+async def service_update_product(price:float, name:str, image,image2,image3,image_filename:str, image2_filename:str, image3_filename:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
 
     infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
     images = {"image_url":image, "image2_url":image2,"image3_url":image3}
+    images_names = {"image_url":image_filename, "image2_url":image2_filename,"image3_url":image3_filename}
     images_url = {"image_url":"", "image2_url":"", "image3_url":""}
 
     now = datetime.now()
@@ -108,9 +109,7 @@ async def service_update_product(price:float, name:str, image,image2,image3,stat
                 if product[0][key]:
                     response_delete = await delete_image_from_supabase(product[0][key])
                       
-                image_content = await value.read();
-                print("foto enviada", image_content)
-                image_url = await upload_image_to_supabase(image_content, value, value.filename)
+                image_url = await upload_image_to_supabase(value, value, images_names[key])
                 images_url[key] = image_url
         
 
