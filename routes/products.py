@@ -55,7 +55,6 @@ async def create_product(
     image3: UploadFile = File(None),
     ):
     image_bytes = await image.read()
-    
     image2_bytes = await image2.read() if image2 else "" 
     image3_bytes = await image3.read() if image3 else "" 
     
@@ -84,8 +83,13 @@ async def update_product(
     image2_bytes = await image2.read() if image2 else "" 
     image3_bytes = await image3.read() if image3 else "" 
 
+    image_name = await image.filename if image else "" 
+    image2_name = await image2.filename if image2 else "" 
+    image3_name = await image3.filename if image3 else "" 
 
-    response = await service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image.filename, image2.filename, image3.filename, status,type,material,checkout_link,product_id,authorization)
+
+
+    response = await service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image_name, image2_name, image3_name, status,type,material,checkout_link,product_id,authorization)
 
     return response
     
