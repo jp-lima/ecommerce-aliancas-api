@@ -70,9 +70,11 @@ def service_get_image_for_product(uuid:str, index:int):
 
 
 
-def service_update_product(price:float, name:str, image_binary:str,image2_binary:str,image3_binary:str,image4_binary:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
+async def service_update_product(price:float, name:str, image,image2,image3,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
 
     infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
+    images = {"image_url":"", "image2_url":image2,"image3_url":image3}
+    images_url = {"image_url":"", "image2_url":"", "image3_url":""}
 
     now = datetime.now()
 
@@ -84,26 +86,41 @@ def service_update_product(price:float, name:str, image_binary:str,image2_binary
     if decoded_token["role"] == "admin":
        
         product = get_one_product(product_id)
-            
-        if not image_binary:
-            image_binary = service_get_image_for_product(product_id, 1)
+
+       # se já estiver uma image_url no product apagar a imagem do supabase e adicionar uma nova e trocar url da coluna
+       # Se não tiver url, adicionar uma nova url e uma nova foto
+       # $$$$$$-Se não for pedido, continuar mesma url-
+        images_url["image_url"] = product[0]["image_url"] 
+        images_url["image2_url"]  = product[0]["image2_url"] 
+        images_url["image3_url"]  = product[0]["image3_url"] 
+
+
+        for key, value in images.items():
+            if value:
+                if product[0][key]:
+                    print(key)
+                    # deletar foto antiga do storage 
+                    # adicionar foto nova no storage
+                    #colocar url da foto nova no images_url
+                else:
+                    print("jj")
+                    image_content = value.read();
+                    image_url = await upload_image_to_supabase(image_content, value, value.filename)
+                    images_url[key] = image_url
+
+                    #adicionar nova foto no storage
+                    #colocar url da foto nova no images_url
+
        
-        if not image2_binary:
-            image2_binary = service_get_image_for_product(product_id, 2)
         
-        if not image3_binary:
-            image3_binary = service_get_image_for_product(product_id, 3)
-
-        if not image4_binary:
-            image4_binary = service_get_image_for_product(product_id, 4)
-
 
         for key, value in infos_produto.items():
             if not value:
 
                 infos_produto[key] = product[0][key]
 
-        put_product(infos_produto["name"],infos_produto["price"],formato_iso,image_binary,image2_binary,image3_binary,image4_binary,infos_produto["status"],infos_produto["type"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
+        put_product(infos_produto["name"],infos_produto["price"],formato_iso,images_url["image_url"],images_url["image2_url"],
+       images_url["image3_url"],infos_produto["status"],infos_produto["type"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
         
 
         return infos_produto    

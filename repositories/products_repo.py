@@ -79,7 +79,7 @@ def put_sale_of_one_product(sale:int, product_id:str):
     conn.close()
 
 
-def put_product(name:str, price:float,updated_at:str,image_binary:str,image2_binary:str,image3_binary:str,image4_binary:str, status:str,type:str,material:str,checkout_link:str,uuid:str):
+def put_product(name:str, price:float,updated_at:str,image_url:str,image2_url:str,image3_url:str, status:str,type:str,material:str,checkout_link:str,uuid:str):
     conn = get_conn()
     cursor = conn.cursor(dictionary = True)
 
@@ -88,17 +88,16 @@ def put_product(name:str, price:float,updated_at:str,image_binary:str,image2_bin
         name = %s,
         price = %s,
         updated_at = %s,
-        image_binary = %s,
-        image2_binary = %s,
-        image3_binary = %s,
-        image4_binary = %s,
+        image_url = %s,
+        image2_url = %s,
+        image3_url = %s,
         status = %s,
         type= %s,
         material = %s,
         checkout_link = %s
     WHERE id = %s 
     ''',
-    (name, price, updated_at,image_binary,image2_binary,image3_binary,image4_binary,status,type,material,checkout_link, uuid)
+    (name, price, updated_at,image_url,image2_url,image3_url,status,type,material,checkout_link, uuid)
  )
 
     conn.commit()
