@@ -89,7 +89,7 @@ async def update_product(
     image4_bytes = await image4.read() if image4 else "" 
 
 
-    response = service_update_product(price,name,image,image2,image3,status,type,material,checkout_link,product_id,authorization)
+    response = await service_update_product(price,name,image,image2,image3,status,type,material,checkout_link,product_id,authorization)
 
     return response
     
