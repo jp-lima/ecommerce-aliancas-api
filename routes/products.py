@@ -8,12 +8,23 @@ prefix="/products",
 tags=["products"]
         )
 
-@router.get("/teste")
-async def teste():
 
-    response =  await delete_image_from_supabase("https://qqxlznjxpekbpqblakju.supabase.co/storage/v1/object/public/products/PA27.png")
+image2: UploadFile = File(None),
 
-    return
+@router.post("/teste")
+async def teste(image1: UploadFile = File(None), image22: UploadFile = File(None), image33: UploadFile = File (None)):
+
+ #  response =  await delete_image_from_supabase("https://qqxlznjxpekbpqblakju.supabase.co/storage/v1/object/public/products/PA27.png")
+
+    image_bytes = await image1.read() if image1 else "" 
+    image2_bytes = await image22.read() if image22 else "" 
+    image3_bytes = await image33.read() if image33 else "" 
+
+    response = await service_create_product(0.01,"TESTE DE ADIÇÃO",image_bytes,image2_bytes,image3_bytes,"Anéis",0,"banho a ouo","w","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTE4NTIyZi03N2VlLTRhM2MtYTliMS0zNjdmZmJmNWJjMDgiLCJuYW1lIjoiRGF2aSBBbmRyYWRlIEZhcmlhcyBBbHZlcyIsInJvbGUiOiJhZG1pbiJ9.qFyJrT4jKpXqb4o_Wh-mKubzq9xdkNtdbeGqsN1VQjE", image1, image22, image33 )
+
+
+#async def service_create_product(price:float, name:str,image_bytes:str,image2_bytes:str,image3_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image, image2, image3 ):
+    return response
 
 
 @router.get("/")
@@ -83,9 +94,9 @@ async def update_product(
     image2_bytes = await image2.read() if image2 else "" 
     image3_bytes = await image3.read() if image3 else "" 
 
-    image_name = await image.filename if image else "" 
-    image2_name = await image2.filename if image2 else "" 
-    image3_name = await image3.filename if image3 else "" 
+    image_name = image.filename if image else "" 
+    image2_name = image2.filename if image2 else "" 
+    image3_name = image3.filename if image3 else "" 
 
 
 
