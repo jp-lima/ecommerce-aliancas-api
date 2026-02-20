@@ -23,7 +23,7 @@ async def upload_image_to_supabase(file_content,file, file_name):
     response = supabase.storage.from_("products").upload(
         file_name,
         file_content,
-        {"content-type": file.content_type}
+        {"content-type": "image/png"}
     )
 
     public_url = supabase.storage.from_("products").get_public_url(file_name)
