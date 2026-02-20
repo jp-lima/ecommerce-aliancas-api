@@ -104,7 +104,7 @@ async def service_update_product(price:float, name:str, image,image2,image3,stat
                     #colocar url da foto nova no images_url
                 else:
                     print("jj")
-                    image_content = value.read();
+                    image_content = await value.read();
                     image_url = await upload_image_to_supabase(image_content, value, value.filename)
                     images_url[key] = image_url
 
