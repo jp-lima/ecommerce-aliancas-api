@@ -20,8 +20,9 @@ async def teste(image1: UploadFile = File(None), image22: UploadFile = File(None
     image2_bytes = await image22.read() if image22 else "" 
     image3_bytes = await image33.read() if image33 else "" 
 
-    response = await service_create_product(0.01,"TESTE DE ADIÇÃO",image_bytes,image2_bytes,image3_bytes,"Anéis",0,"banho a ouo","w","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTE4NTIyZi03N2VlLTRhM2MtYTliMS0zNjdmZmJmNWJjMDgiLCJuYW1lIjoiRGF2aSBBbmRyYWRlIEZhcmlhcyBBbHZlcyIsInJvbGUiOiJhZG1pbiJ9.qFyJrT4jKpXqb4o_Wh-mKubzq9xdkNtdbeGqsN1VQjE", image1, image22, image33 )
+#    response = await service_create_product(0.01,"TESTE DE ADIÇÃO",image_bytes,image2_bytes,image3_bytes,"Anéis", 0, 1, 1 ,"banho a ouo","w","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTE4NTIyZi03N2VlLTRhM2MtYTliMS0zNjdmZmJmNWJjMDgiLCJuYW1lIjoiRGF2aSBBbmRyYWRlIEZhcmlhcyBBbHZlcyIsInJvbGUiOiJhZG1pbiJ9.qFyJrT4jKpXqb4o_Wh-mKubzq9xdkNtdbeGqsN1VQjE", image1, image22, image33 )
 
+    response = await service_update_product(None,"TESTE de solitary e pear",None,None,None,None, None, None, None, None, 1 , 1, 1, None,None, "90ca849b-2ff7-4ef8-b8ed-56f9d6338a04", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMTE4NTIyZi03N2VlLTRhM2MtYTliMS0zNjdmZmJmNWJjMDgiLCJuYW1lIjoiRGF2aSBBbmRyYWRlIEZhcmlhcyBBbHZlcyIsInJvbGUiOiJhZG1pbiJ9.qFyJrT4jKpXqb4o_Wh-mKubzq9xdkNtdbeGqsN1VQjE"  )
 
 #async def service_create_product(price:float, name:str,image_bytes:str,image2_bytes:str,image3_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image, image2, image3 ):
     return response
@@ -61,6 +62,8 @@ async def create_product(
     material: str = Form(...),
     checkout_link: str = Form(...),
     stone: int = Form(...), 
+    solitary: int = Form(...),
+    pear: int = Form(...),
     image: UploadFile = File(...),
     image2: UploadFile = File(None),
     image3: UploadFile = File(None),
@@ -70,7 +73,7 @@ async def create_product(
     image3_bytes = await image3.read() if image3 else "" 
     
     response = await service_create_product(price,name,image_bytes,image2_bytes,
-    image3_bytes,type,stone,material,checkout_link,authorization, image, image2, image3)
+    image3_bytes,type,stone, solitary,pear,material,checkout_link,authorization, image, image2, image3)
 
     return response
 
@@ -82,6 +85,9 @@ async def update_product(
         product_id:str = Form(None),
         price: float = Form(None),
         type: str = Form(None),
+        stone: int = Form(None),
+        solitary: int = Form(None),
+        pear: int = Form(None),
         material: str = Form(None),
         checkout_link: str = Form(None),
         image: UploadFile = File(None),
@@ -100,7 +106,7 @@ async def update_product(
 
 
 
-    response = await service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image_name, image2_name, image3_name, status,type,material,checkout_link,product_id,authorization)
+    response = await service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image_name, image2_name, image3_name, status,type,stone, solitary, pear, material,checkout_link,product_id,authorization)
 
     return response
     

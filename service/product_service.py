@@ -39,7 +39,8 @@ async def delete_image_from_supabase(image_url:str):
     return
 
 
-async def service_create_product(price:float, name:str,image_bytes:str,image2_bytes:str,image3_bytes:str,type:str,stone:int,material:str,checkout_link:str,authorization:str, image, image2, image3 ):
+async def service_create_product(price:float, name:str,image_bytes:str,image2_bytes:str,image3_bytes:str,type:str,
+                     stone:int, solitary:int, pear:int ,material:str,checkout_link:str,authorization:str, image, image2, image3 ):
     
     image_url = await upload_image_to_supabase(image_bytes, image, image.filename)
 
@@ -57,8 +58,9 @@ async def service_create_product(price:float, name:str,image_bytes:str,image2_by
     formato_iso = now.strftime("%Y-%m-%d %H:%M:%S.%f")
 
     if decoded_token["role"] == "admin":
-           
-        create_product(str(new_uuid),name, price, image_url, image2_url, image3_url, type, stone, material,checkout_link,formato_iso )
+                             
+        create_product(str(new_uuid),name, price, image_url, image2_url, image3_url, type, stone,solitary, pear,
+                       material,checkout_link,formato_iso )
 
         return JSONResponse(status_code=201,content="produto criado")
 
@@ -78,9 +80,12 @@ def service_get_image_for_product(uuid:str, index:int):
 
 
 
-async def service_update_product(price:float, name:str, image,image2,image3,image_filename:str, image2_filename:str, image3_filename:str,status:str,type:str, material:str,checkout_link:str, product_id:str, authorization:str):
+async def service_update_product(price:float, name:str, image,image2,image3,image_filename:str, image2_filename:str,
+         image3_filename:str,status:str,type:str, stone:int, solitary:int, pear:int, material:str,checkout_link:str, product_id:str, authorization:str):
 
-    infos_produto = {"price":price,"name":name,"status":status, "type":type, "material":material, "checkout_link":checkout_link}
+    infos_produto = {"price":price,"name":name,"status":status, "type":type, "stone":stone, "solitary":solitary, "pear":pear 
+                ,"material":material, "checkout_link":checkout_link}
+
     images = {"image_url":image, "image2_url":image2,"image3_url":image3}
     images_names = {"image_url":image_filename, "image2_url":image2_filename,"image3_url":image3_filename}
     images_url = {"image_url":"", "image2_url":"", "image3_url":""}
@@ -114,12 +119,12 @@ async def service_update_product(price:float, name:str, image,image2,image3,imag
         
 
         for key, value in infos_produto.items():
-            if not value:
-
+            if not value and value != 0:
+                print(value)
                 infos_produto[key] = product[0][key]
 
         put_product(infos_produto["name"],infos_produto["price"],formato_iso,images_url["image_url"],images_url["image2_url"],
-       images_url["image3_url"],infos_produto["status"],infos_produto["type"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
+       images_url["image3_url"],infos_produto["status"],infos_produto["type"],infos_produto["stone"],infos_produto["solitary"],infos_produto["pear"],infos_produto["material"],infos_produto["checkout_link"],product_id) 
         
 
         return infos_produto    
