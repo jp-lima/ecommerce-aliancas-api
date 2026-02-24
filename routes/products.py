@@ -111,9 +111,9 @@ async def update_product(
     return response
     
 @router.post("/delete")
-def delete_product(product:Request_delete_product):
+async def delete_product(product:Request_delete_product):
 
-   response = service_delete_product(product.product_id, product.authorization)
+   response = await service_delete_product(product.product_id, product.authorization)
 
    return response 
 

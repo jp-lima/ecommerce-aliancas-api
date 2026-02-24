@@ -144,10 +144,18 @@ def service_update_sales_of_product(commmand:int, product_id:str):
 
 
 
-def service_delete_product(uuid:str, authorization:str):
+async def service_delete_product(uuid:str, authorization:str):
+
     decoded_token = decode_access_token(authorization)
 
     if decoded_token["role"] == "admin":
+
+        product = get_one_product(uuid)
+
+        for key, value in product[0].items():
+            if not key.find("image"):
+                response_delete = await delete_image_from_supabase(value)
+
            
         del_product(str(uuid))
 
