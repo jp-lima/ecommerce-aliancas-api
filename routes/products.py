@@ -88,8 +88,8 @@ async def update_product(
         stone: int = Form(None),
         solitary: int = Form(None),
         pear: int = Form(None),
+        has_gravation: int = Form(None),
         material: str = Form(None),
-        checkout_link: str = Form(None),
         image: UploadFile = File(None),
         image2: UploadFile = File(None),
         image3: UploadFile = File(None),
@@ -106,7 +106,7 @@ async def update_product(
 
 
 
-    response = await service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image_name, image2_name, image3_name, status,type,stone, solitary, pear, material,checkout_link,product_id,authorization)
+    response = await service_update_product(price,name,image_bytes,image2_bytes,image3_bytes,image_name, image2_name, image3_name, status,type,stone, solitary, pear, has_gravation, material,product_id,authorization)
 
     return response
     
